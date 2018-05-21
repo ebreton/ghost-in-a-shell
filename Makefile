@@ -1,9 +1,9 @@
-NAME:=ghost-traefik
+NAME:=ghost-local
 DOMAIN:=localhost
 PORT:=3001
 
 dev:
-	# Simply start a ghost container making it directly available through $PORT
+	# Simply start a ghost container making it directly available through $$PORT
 	docker run --rm -d --name $(NAME) \
 		-v $(shell pwd)/$(NAME):/var/lib/ghost/content \
 		-p $(PORT):2368 \
@@ -11,7 +11,8 @@ dev:
 		ghost:1-alpine
 
 traefik:
-	# Start a ghost container behind traefik (therefore available through 80 or 443), on path $NAME
+	# Start a ghost container behind traefik (therefore available through 80 or 443), on path $$NAME
+	# Beware of --network used, which is the same one traefik should be using
 	docker run --rm -d --name $(NAME) \
 		-v $(shell pwd)/$(NAME):/var/lib/ghost/content \
 		-e url=http://$(DOMAIN)/$(NAME) \
