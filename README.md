@@ -29,10 +29,10 @@ You just want to try Ghost without messing up your computer ? (and that's why yo
 
 You want to play a bit more, and you would like to have multiple Ghosts on your domain / server ?
 
-* Either use `make` again and again with different variables, to get your blogs on a **per-port basis**, 
-* or leverage the power of [traefik](https://traefik.io) power and have multiple ghosts on a **per-path basis**
-
-> in the later case, use the [prod-stack](https://github.com/ebreton/prod-stack) companion and `make traefik`. Head for <http://localhost/ghost-local>
+* Either use *make* again and again with different variables, to get your blogs on a **per-port basis**
+    > e.g: `NAME=another PORT=3002 make` for a second blog on <http://localhost:3002>
+* or leverage the power of [traefik](https://traefik.io) power and have multiple ghosts on a **per-path basis** (see section below)
+    > e.g: `NAME=yet-another make traefik`. Head for <http://localhost/yet-another>
 
 ToC
 --
