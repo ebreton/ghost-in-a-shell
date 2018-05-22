@@ -1,29 +1,49 @@
-NAME:=ghost-local
-DOMAIN:=localhost
-PORT:=3001
+#!make
+# Default values, can be overridden either on the command line of make
+# or in .env
+
+.PHONY: dev traefik vars \
+	cli-version ps-light shell logs stop \
+	app-version release push-qa push-prod update-changelog 
 
 VERSION:=$(shell python update_release.py -v)
 
-dev:
+dev: check-env
 	# Simply start a ghost container making it directly available through $$PORT
-	docker run --rm -d --name $(NAME) \
-		-v $(shell pwd)/$(NAME):/var/lib/ghost/content \
-		-p $(PORT):2368 \
-		-e url=http://$(DOMAIN):$(PORT) \
+	docker run --rm -d --name ${NAME} \
+		-v $(shell pwd)/${NAME}:/var/lib/ghost/content \
+		-p ${PORT}:2368 \
+		-e url=http://${DOMAIN}:${PORT} \
 		ghost:1-alpine
 
-traefik:
+traefik: check-env
 	# Start a ghost container behind traefik (therefore available through 80 or 443), on path $$NAME
 	# Beware of --network used, which is the same one traefik should be using
-	docker run --rm -d --name $(NAME) \
-		-v $(shell pwd)/$(NAME):/var/lib/ghost/content \
-		-e url=http://$(DOMAIN)/$(NAME) \
+	docker run --rm -d --name ${NAME} \
+		-v $(shell pwd)/${NAME}:/var/lib/ghost/content \
+		-e url=http://${DOMAIN}/${NAME} \
 		--network=proxy \
 		--label "traefik.enable=true" \
-		--label "traefik.backend=$(NAME)" \
+		--label "traefik.backend=${NAME}" \
 		--label "traefik.frontend.entryPoints=http" \
-		--label "traefik.frontend.rule=Host:$(DOMAIN);PathPrefix:/$(NAME)" \
+		--label "traefik.frontend.rule=Host:${DOMAIN};PathPrefix:/${NAME}" \
 		ghost:1-alpine
+
+vars: check-env
+	@echo 'Creation parameters:'
+	@echo '  NAME=${NAME}'
+	@echo '  DOMAIN=${DOMAIN}'
+	@echo '  PORT=${PORT}'
+
+check-env:
+ifeq ($(wildcard .env),)
+	@echo ".env file is missing"
+	@exit 1
+else
+include .env
+export
+endif
+
 
 # DOCKER related commands
 ###
