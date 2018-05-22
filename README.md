@@ -34,7 +34,7 @@ You want to play a bit more, and you would like to have multiple Ghosts on your 
 
 > in the later case, use the [prod-stack](https://github.com/ebreton/prod-stack) companion and `make traefik`. Head for <http://localhost/ghost-local>
 
-Summary
+ToC
 --
 
 <!-- TOC -->
@@ -43,8 +43,9 @@ Summary
     - [per-port basis](#per-port-basis)
     - [per-path basis](#per-path-basis)
 - [Setup](#setup)
-- [Interested ? Look for what's coming...](#interested--look-for-whats-coming)
-- [Something is missing ?](#something-is-missing-)
+- [Interested ?](#interested-)
+    - [Look for what's coming...](#look-for-whats-coming)
+    - [Something is missing ?](#something-is-missing-)
 - [Changelog](#changelog)
 - [Contribution](#contribution)
 
@@ -54,20 +55,22 @@ Summary
 
 ### per-port basis
 
-* `make`
+* [make](https://www.gnu.org/software/make/)
 * [docker](https://www.docker.com/community-edition)
 
 That's it !
 
 ### per-path basis
 
-Additionnaly to `make` and [docker](https://www.docker.com/community-edition), you will need a running container of [traefik](https://traefik.io).
+Additionnaly to [make](https://www.gnu.org/software/make/) and [docker](https://www.docker.com/community-edition), you will need a running container of [traefik](https://traefik.io).
 
 Feel free to use my companion repo, [prod-stack](https://github.com/ebreton/prod-stack). It will happily provide you with a pre-configured nginx+traefik proxy. You will need [docker-compose](https://docs.docker.com/compose/install/) additionnaly to docker. And if you are not completely sure what it means, here is a [guide](./docs/VM_INSTALL.md) to setup a VM with everything you need
 
 The [prod-stack](https://github.com/ebreton/prod-stack) will actually offer you more than a proxy-combo: you will get what you could need in production (Nginx, MariaDB, and use of Let's Encrypt for HTTPs)
 
-> but they are not yet used in this version of Ghost-in-a-shell. More to come :)
+* `NAME=hello make traefik` to get a fresh blog running on <http://localhost/hello>
+* `NAME=bye make traefik` to get anoter blog running on <http://localhost/bye>
+* and so on...
 
 ## Setup
 
@@ -92,12 +95,14 @@ You will be able to check that everything went ok 1) on <http://localhost:3001>,
     NAMES               IMAGE                           STATUS ago
     ghost-local         ghost:1-alpine                  Up About a minute ago
 
-## Interested ? Look for what's coming...
+## Interested ? 
 
-1. Facilitate definition of vars
-1. Add commands for HTTPs
+### Look for what's coming...
 
-## Something is missing ?
+1. More doc
+1. Expose commands for HTTPs
+
+### Something is missing ?
 
 Head to [github issues](https://github.com/ebreton/ghost-in-a-shell/issues) and submit one ! Be sure to have a look at the [CONTRIBUTING.md](./docs/CONTRIBUTING.md) guide before
 
