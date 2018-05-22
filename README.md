@@ -3,6 +3,7 @@
   <img src="./docs/static/logo.png"
        alt="Ghost in A Shell"
        width="200">
+    <br/> Ghost in A shell
 </h1>
 
 <h4 align="center">
@@ -29,7 +30,7 @@ You just want to try Ghost without messing up your computer ? (and that's why yo
 You want to play a bit more, and you would like to have multiple Ghosts on your domain / server ?
 
 * Either use `make` again and again with different variables, to get your blogs on a **per-port basis**, 
-* or leverage the power of `traefik` power and have multiple ghosts on a **per-path basis**
+* or leverage the power of [traefik](https://traefik.io) power and have multiple ghosts on a **per-path basis**
 
 > in the later case, use the [prod-stack](https://github.com/ebreton/prod-stack) companion and `make traefik`. Head for <http://localhost/ghost-local>
 
@@ -38,8 +39,9 @@ Summary
 
 <!-- TOC -->
 
-- [Pre-requisite (per-port basis)](#pre-requisite-per-port-basis)
-- [Pre-requisite (per-path basis)](#pre-requisite-per-path-basis)
+- [Pre-requisite](#pre-requisite)
+    - [per-port basis](#per-port-basis)
+    - [per-path basis](#per-path-basis)
 - [Setup](#setup)
 - [Interested ? Look for what's coming...](#interested--look-for-whats-coming)
 - [Something is missing ?](#something-is-missing-)
@@ -48,20 +50,22 @@ Summary
 
 <!-- /TOC -->
 
-## Pre-requisite (per-port basis)
+## Pre-requisite 
+
+### per-port basis
 
 * `make`
 * [docker](https://www.docker.com/community-edition)
 
 That's it !
 
-## Pre-requisite (per-path basis)
+### per-path basis
 
-Additionnaly to `make` and `docker`, you will need a running container of `traefik`.
+Additionnaly to `make` and [docker](https://www.docker.com/community-edition), you will need a running container of [traefik](https://traefik.io).
 
-Feel free to use my companion repo, [prod-stack](https://github.com/ebreton/prod-stack). It will happily provide you with a pre-configured nginx+traefik proxy. You will just need `docker-compose` additionnaly to docker. And if you are not completely sure what it means, here is a [guide](./docs/VM_INSTALL.md) to setup a VM with everything you need
+Feel free to use my companion repo, [prod-stack](https://github.com/ebreton/prod-stack). It will happily provide you with a pre-configured nginx+traefik proxy. You will need [docker-compose](https://docs.docker.com/compose/install/) additionnaly to docker. And if you are not completely sure what it means, here is a [guide](./docs/VM_INSTALL.md) to setup a VM with everything you need
 
-The [prod-stack](https://github.com/ebreton/prod-stack) will actually offer you more than just-a-proxy-combo: you will get what you could need in production (Nginx, MariaDB, and use of Let's Encrypt for HTTPs)
+The [prod-stack](https://github.com/ebreton/prod-stack) will actually offer you more than a proxy-combo: you will get what you could need in production (Nginx, MariaDB, and use of Let's Encrypt for HTTPs)
 
 > but they are not yet used in this version of Ghost-in-a-shell. More to come :)
 
@@ -80,7 +84,7 @@ To get everything running, what could be better than one line?
         ghost:1-alpine
     c13be64808bb44e58ba41afc158f8756efa71d613158333225dc12e2c2bcdb36
 
-You will be able to check that everything went ok either through the logs, or by running `make ps-light`
+You will be able to check that everything went ok 1) on <http://localhost:3001>, 2) through the logs, or 3) by running `make ps-light`
 
     $ make ps-light
     # A lightly formatted version of docker ps
@@ -95,7 +99,7 @@ You will be able to check that everything went ok either through the logs, or by
 
 ## Something is missing ?
 
-Head to [githup issues](https://github.com/ebreton/ghost-in-a-shell/issues) and submit one ! Be sure to have a look at the [CONTRIBUTING.md](./docs/CONTRIBUTING.md) guide before
+Head to [github issues](https://github.com/ebreton/ghost-in-a-shell/issues) and submit one ! Be sure to have a look at the [CONTRIBUTING.md](./docs/CONTRIBUTING.md) guide before
 
 
 ## Changelog
