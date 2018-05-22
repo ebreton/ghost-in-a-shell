@@ -1,20 +1,69 @@
-# README #
+<!-- markdownlint-disable -->
+<h1 align="center" style="margin:1em">
+  <img src="./docs/static/logo.png"
+       alt="Ghost in A Shell"
+       width="200">
+</h1>
 
-This repository will provide you with an easy way to spaw ghost blogs (thanks to Docker)
+<h4 align="center">
+  Spawn your ghost blogs fearlessly
+  <br /> (thank you Docker!)
+</h4>
 
-1. either on your `localhost`, whatever environment you have
-    * there, multiple ghosts will run on a **per-port basis**
-2. or on any domain you own, whatever server you have
-    * there, multiple ghosts will run on a **per-path basis**
+<p align="center">
+  <a href="https://github.com/ebreton/ghost-in-a-shell/blob/master/docs/CHANGELOG.md">
+    <img src="https://img.shields.io/github/release/ebreton/ghost-in-a-shell.svg"
+         alt="Changelog">
+  </a>
+  <a href="https://github.com/ebreton/ghost-in-a-shell/blob/master/LICENSE">
+    <img src="https://img.shields.io/badge/license-MIT-blue.svg"
+         alt="License" />
+  </a>
+</p>
+<br>
 
-## Pre-requisite
+You just want to try Ghost without messing up your computer ? (and that's why you already have docker installed)
 
-For the both solutions, you will need
+> simply run `make` and head for <http://localhost:3001>
+
+You want to play a bit more, and you would like to have multiple Ghosts on your domain / server ?
+
+* Either use `make` again and again with different variables, to get your blogs on a **per-port basis**, 
+* or leverage the power of `traefik` power and have multiple ghosts on a **per-path basis**
+
+> in the later case, use the [prod-stack](https://github.com/ebreton/prod-stack) companion and `make traefik`. Head for <http://localhost/ghost-local>
+
+Summary
+--
+
+<!-- TOC -->
+
+- [Pre-requisite (per-port basis)](#pre-requisite-per-port-basis)
+- [Pre-requisite (per-path basis)](#pre-requisite-per-path-basis)
+- [Setup](#setup)
+- [Interested ? Look for what's coming...](#interested--look-for-whats-coming)
+- [Something is missing ?](#something-is-missing-)
+- [Changelog](#changelog)
+- [Contribution](#contribution)
+
+<!-- /TOC -->
+
+## Pre-requisite (per-port basis)
 
 * `make`
-* `docker`
+* [docker](https://www.docker.com/community-edition)
 
-In the second case, you will need a running container of `traefik`. You can have a look at my other repo [prod-stack](https://github.com/ebreton/prod-stack) that will provide you with a reasonnable stack with the components that you will need in production (Nginx, MariaDB, and use of Let's Encrypt for HTTPs)
+That's it !
+
+## Pre-requisite (per-path basis)
+
+Additionnaly to `make` and `docker`, you will need a running container of `traefik`.
+
+Feel free to use my companion repo, [prod-stack](https://github.com/ebreton/prod-stack). It will happily provide you with a pre-configured nginx+traefik proxy. You will just need `docker-compose` additionnaly to docker. And if you are not completely sure what it means, here is a [guide](./docs/VM_INSTALL.md) to setup a VM with everything you need
+
+The [prod-stack](https://github.com/ebreton/prod-stack) will actually offer you more than just-a-proxy-combo: you will get what you could need in production (Nginx, MariaDB, and use of Let's Encrypt for HTTPs)
+
+> but they are not yet used in this version of Ghost-in-a-shell. More to come :)
 
 ## Setup
 
@@ -39,7 +88,22 @@ You will be able to check that everything went ok either through the logs, or by
     NAMES               IMAGE                           STATUS ago
     ghost-local         ghost:1-alpine                  Up About a minute ago
 
-## Next steps
+## Interested ? Look for what's coming...
 
-1. Facilitate definition of vars (.env ?)
-1. Add command for HTTPs
+1. Facilitate definition of vars
+1. Add commands for HTTPs
+
+## Something is missing ?
+
+Head to [githup issues](https://github.com/ebreton/ghost-in-a-shell/issues) and submit one ! Be sure to have a look at the [CONTRIBUTING.md](./docs/CONTRIBUTING.md) guide before
+
+
+## Changelog
+
+All notable changes to this project are documented in [CHANGELOG.md](./CHANGELOG.md).
+
+## Contribution
+
+Check out [CONTRIBUTING.md](./docs/CONTRIBUTING.md) for more details
+
+As well as our [CODE_OF_CONDUCT.md](./docs/CODE_OF_CONDUCT.md), where we pledge to making participation in our project and our community a harassment-free experience for everyone
