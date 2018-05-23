@@ -1,10 +1,19 @@
 # Change Log
 
-## [0.1.1](https://github.com/ebreton/ghost-in-a-shell/tree/0.1.1) (2018-05-22)
-[Full Changelog](https://github.com/ebreton/ghost-in-a-shell/compare/qa-release...0.1.1)
+## [0.1.2](https://github.com/ebreton/ghost-in-a-shell/tree/0.1.2) (2018-05-23)
+[Full Changelog](https://github.com/ebreton/ghost-in-a-shell/compare/qa-release...0.1.2)
 
-## [qa-release](https://github.com/ebreton/ghost-in-a-shell/tree/qa-release) (2018-05-22)
-[Full Changelog](https://github.com/ebreton/ghost-in-a-shell/compare/0.1.0...qa-release)
+## [qa-release](https://github.com/ebreton/ghost-in-a-shell/tree/qa-release) (2018-05-23)
+[Full Changelog](https://github.com/ebreton/ghost-in-a-shell/compare/0.1.1...qa-release)
+
+**Merged pull requests:**
+
+- Added HELPERS.md to describe make commands [\#5](https://github.com/ebreton/ghost-in-a-shell/pull/5) ([ebreton](https://github.com/ebreton))
+- Extended env vars [\#4](https://github.com/ebreton/ghost-in-a-shell/pull/4) ([ebreton](https://github.com/ebreton))
+- More documentation [\#3](https://github.com/ebreton/ghost-in-a-shell/pull/3) ([ebreton](https://github.com/ebreton))
+
+## [0.1.1](https://github.com/ebreton/ghost-in-a-shell/tree/0.1.1) (2018-05-22)
+[Full Changelog](https://github.com/ebreton/ghost-in-a-shell/compare/0.1.0...0.1.1)
 
 **Merged pull requests:**
 
