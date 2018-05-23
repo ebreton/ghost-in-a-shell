@@ -8,26 +8,26 @@ ToC
 <!-- TOC -->
 
 - [Pre-requisites](#pre-requisites)
-    - [per-port basis](#per-port-basis)
-    - [per-path basis](#per-path-basis)
+    - [To run on a per-port basis](#to-run-on-a-per-port-basis)
+    - [To run on a per-path basis](#to-run-on-a-per-path-basis)
 - [Setup](#setup)
     - [Default configuration](#default-configuration)
-    - [per-port basis](#per-port-basis-1)
-    - [per-path basis](#per-path-basis-1)
+    - [Run on a per-port basis](#run-on-a-per-port-basis)
+    - [Run on a per-path basis](#run-on-a-per-path-basis)
     - [HTTPs ?](#https-)
 
 <!-- /TOC -->
 
 ## Pre-requisites
 
-### per-port basis
+### To run on a per-port basis
 
 * [make](https://www.gnu.org/software/make/)
 * [docker](https://www.docker.com/community-edition)
 
 That's it!
 
-### per-path basis
+### To run on a per-path basis
 
 Additionally to [make](https://www.gnu.org/software/make/) and [docker](https://www.docker.com/community-edition), you will need a running container of [traefik](https://traefik.io).
 
@@ -47,7 +47,7 @@ Name | description | default | used by standalone container / traefik
  PORT | to build the URL | 3001 | standalone
  URI | to build the URL | ${NAME} | traefik
 
-### per-port basis
+### Run on a per-port basis
 
 > The following variables will be used: NAME, DOMAIN, PORT, URI
 
@@ -80,7 +80,7 @@ You will be able to check that everything went ok
 
     NAME=another PORT=3002 make
 
-### per-path basis
+### Run on a per-path basis
 
 > The following variables will be used: NAME, PROTOCOL, DOMAIN, URI
 
