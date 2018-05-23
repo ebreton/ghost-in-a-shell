@@ -12,7 +12,7 @@
 </h4>
 
 <p align="center">
-  <a href="https://github.com/ebreton/ghost-in-a-shell/blob/master/docs/CHANGELOG.md">
+  <a href="https://github.com/ebreton/ghost-in-a-shell/blob/master/CHANGELOG.md">
     <img src="https://img.shields.io/github/release/ebreton/ghost-in-a-shell.svg"
          alt="Changelog">
   </a>
