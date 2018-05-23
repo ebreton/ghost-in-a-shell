@@ -82,8 +82,6 @@ More detailed can be found in [HELPERS.md](./docs/HELPERS.md)
 
 ### Look for what's coming next...
 
-1. (/) Document HTTPs
-1. (/) Authorize blog on raw domain (without named folder)
 1. Make use of MariaDB and Nginx
 1. Consolidate for production
 
