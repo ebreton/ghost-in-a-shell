@@ -43,7 +43,8 @@ ToC
 
 - [Installation and usage](#installation-and-usage)
 - [Helpers for developers](#helpers-for-developers)
-    - [make ps-light](#make-ps-light)
+    - [make vars](#make-vars)
+    - [make ps](#make-ps)
     - [[NAME=ghost-local] make shell](#nameghost-local-make-shell)
     - [[NAME=ghost-local] make logs](#nameghost-local-make-logs)
     - [[NAME=ghost-local] make stop](#nameghost-local-make-stop)
@@ -69,11 +70,35 @@ Now that you have one (or more) blogs running, you might want to check their sta
 
 A few helpers command are provided within the Makefile:
 
-### make ps-light
+### make vars
+
+It will list the values currently set of your environment variables
+
+    $ make vars
+    # values that will be used to create the blog URL
+      NAME=ghost-local
+      PROTOCOL=http
+      DOMAIN=localhost
+      PORT=3001
+      URI=ghost-local
+
+As with all other commands, you can override them either in [.env](./.env) file or through the command line:
+
+    $ NAME=foo URI=bar PORT=3002 make vars
+    # values that will be used to create the blog URL
+      NAME=foo
+      PROTOCOL=http
+      DOMAIN=localhost
+      PORT=3002
+      URI=bar
+
+More information on those variables can be found in [INSTALL.md](./docs/INSTALL.md#default-configuration)
+
+### make ps
 
 It will act as `docker ps`, displaying less columns
 
-    $ make ps-light
+    $ make ps
     # A lightly formatted version of docker ps
     docker ps --format 'table {{.Names}}\t{{.Image}}\t{{.Status}} ago'
     NAMES               IMAGE                           STATUS ago
@@ -119,7 +144,8 @@ This will stop and delete the container with given NAME. Data is not lost though
 
 ### Look for what's coming next...
 
-1. Document HTTPs
+1. (/) Document HTTPs
+1. (/) Authorize blog on raw domain (without named folder)
 1. Make use of MariaDB and Nginx
 1. Consolidate for production
 

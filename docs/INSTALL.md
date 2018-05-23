@@ -11,8 +11,10 @@ ToC
     - [per-port basis](#per-port-basis)
     - [per-path basis](#per-path-basis)
 - [Setup](#setup)
+    - [Default configuration](#default-configuration)
     - [per-port basis](#per-port-basis-1)
     - [per-path basis](#per-path-basis-1)
+    - [HTTPs ?](#https-)
 
 <!-- /TOC -->
 
@@ -33,7 +35,21 @@ Feel free to use my companion repo, [prod-stack](https://github.com/ebreton/prod
 
 ## Setup
 
+### Default configuration
+
+Variables are defined in [.env](../.env) file, and can be modified in the command line when calling `make`. The file is self-documented, but here is a summary of the variables and default values:
+
+Name | description | default | used by standalone container / traefik
+---------|----------|----------|---------
+ NAME | for the container and the data folder | ghost-local | both
+ PROTOCOL | to build the URL | http | traefik
+ DOMAIN | to build the URL | localhost | both
+ PORT | to build the URL | 3001 | standalone
+ URI | to build the URL | ${NAME} | traefik
+
 ### per-port basis
+
+> The following variables will be used: NAME, DOMAIN, PORT, URI
 
 To get everything running, what could be better than one line?
 
@@ -51,10 +67,10 @@ To get everything running, what could be better than one line?
 You will be able to check that everything went ok 
 
 1. on <http://localhost:3001>,
-2. through the logs, or
-3. by running `make ps-light`
+2. through the logs (`make logs`)
+3. by running `make ps`
 
-        $ make ps-light
+        $ make ps
         # A lightly formatted version of docker ps
         docker ps --format 'table {{.Names}}\t{{.Image}}\t{{.Status}} ago'
         NAMES               IMAGE                           STATUS ago
@@ -65,6 +81,8 @@ You will be able to check that everything went ok
     NAME=another PORT=3002 make
 
 ### per-path basis
+
+> The following variables will be used: NAME, PROTOCOL, DOMAIN, URI
 
 The [prod-stack](https://github.com/ebreton/prod-stack) will actually offer you more than a proxy-combo: you will get what you could need in production (Nginx, MariaDB, and use of Let's Encrypt for HTTPs)
 
@@ -89,3 +107,14 @@ If you have already launched a container with the default environment variables,
 * `NAME=hello make traefik` to get a fresh blog running on <http://localhost/hello>
 * `NAME=bye make traefik` to get another blog running on <http://localhost/bye>
 * and so on...
+
+### HTTPs ?
+
+The default configuration will set-up everything on HTTP. But the [prod-stack](https://github.com/ebreton/prod-stack) can to serve HTTPs (as well as support Let's Encrypt protocol, and force redirection from HTTP to HTTPs)
+
+You only have to:
+
+1. change the env var $PROTOCOL to https
+1. make sure though that your $DOMAIN is accessible externaly
+
+The second point is a MUST since traefik will get the certificate from Let's Encrypt, that will need access to your domain in return.
