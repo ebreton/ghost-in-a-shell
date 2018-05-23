@@ -3,7 +3,7 @@
 # or in .env
 
 .PHONY: dev traefik vars \
-	cli-version ps-light shell logs stop \
+	cli-version ps shell logs stop \
 	app-version release push-qa push-prod update-changelog 
 
 VERSION:=$(shell python update_release.py -v)
@@ -21,19 +21,21 @@ traefik: check-env
 	# Beware of --network used, which is the same one traefik should be using
 	docker run --rm -d --name ${NAME} \
 		-v $(shell pwd)/${NAME}:/var/lib/ghost/content \
-		-e url=http://${DOMAIN}/${NAME} \
+		-e url=${PROTOCOL}://${DOMAIN}/${URI} \
 		--network=proxy \
 		--label "traefik.enable=true" \
 		--label "traefik.backend=${NAME}" \
-		--label "traefik.frontend.entryPoints=http" \
-		--label "traefik.frontend.rule=Host:${DOMAIN};PathPrefix:/${NAME}" \
+		--label "traefik.frontend.entryPoints=${PROTOCOL}" \
+		--label "traefik.frontend.rule=Host:${DOMAIN};PathPrefix:/${URI}" \
 		ghost:1-alpine
 
 vars: check-env
-	@echo 'Creation parameters:'
+	# values that will be used to create the blog URL
 	@echo '  NAME=${NAME}'
+	@echo '  PROTOCOL=${PROTOCOL}'
 	@echo '  DOMAIN=${DOMAIN}'
 	@echo '  PORT=${PORT}'
+	@echo '  URI=${URI}'
 
 check-env:
 ifeq ($(wildcard .env),)
@@ -51,7 +53,7 @@ endif
 cli-version:
 	docker exec -it ${NAME} ghost -v
 
-ps-light:
+ps:
 	# A lightly formatted version of docker ps
 	docker ps --format 'table {{.Names}}\t{{.Image}}\t{{.Status}} ago'
 
