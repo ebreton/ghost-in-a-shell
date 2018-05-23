@@ -25,82 +25,103 @@
 
 You just want to try Ghost without messing up your computer? (and that's why you already have docker installed)
 
-> simply run `make` and head for <http://localhost:3001>
+> simply run `make` and head to <http://localhost:3001>
 
 You want to play a bit more, and you would like to have multiple Ghosts on your domain / server?
 
 * Either use *make* again and again with different variables, to get your blogs on a **per-port basis**
     > e.g.: `NAME=another PORT=3002 make` for a second blog on <http://localhost:3002>
 * or leverage the power of [traefik](https://traefik.io) and have multiple ghosts on a **per-path basis** (see section below)
-    > e.g.: `NAME=yet-another make traefik`. Head for <http://localhost/yet-another>
+    > e.g.: `NAME=yet-another make traefik`. Head to <http://localhost/yet-another>
+
+If you are worried with your data, be at rest: a local folder is created for every blog you create, named from $NAME variable. Stopping and restarting a blog with the same name will keep using the local data
 
 ToC
 --
 
 <!-- TOC -->
 
-- [Pre-requisite](#pre-requisite)
-    - [per-port basis](#per-port-basis)
-    - [per-path basis](#per-path-basis)
-- [Setup](#setup)
+- [Installation and usage](#installation-and-usage)
+- [Helpers for developers](#helpers-for-developers)
+    - [make ps-light](#make-ps-light)
+    - [[NAME=ghost-local] make shell](#nameghost-local-make-shell)
+    - [[NAME=ghost-local] make logs](#nameghost-local-make-logs)
+    - [[NAME=ghost-local] make stop](#nameghost-local-make-stop)
 - [Interested ?](#interested-)
-    - [Look for what's coming...](#look-for-whats-coming)
+    - [Look for what's coming next...](#look-for-whats-coming-next)
     - [Something is missing ?](#something-is-missing-)
 - [Changelog](#changelog)
 - [Contribution](#contribution)
 
 <!-- /TOC -->
 
-## Pre-requisite 
+## Installation and usage
 
-### per-port basis
+Installation is straightforward if you simply wish to export every container to a different port. `make` will do.
 
-* [make](https://www.gnu.org/software/make/)
-* [docker](https://www.docker.com/community-edition)
+However, it is not really convenient if you wish to serve on standard ports (80 or 443) and if you want anyone to access your blog easily. In this case, you will need to setup traefik router, and run `make traefik`
 
-That's it!
+You will find details and a step-by-step guide for both scenario in [INSTALL.md](./docs/INSTALL.md)
 
-### per-path basis
+## Helpers for developers
 
-Additionally to [make](https://www.gnu.org/software/make/) and [docker](https://www.docker.com/community-edition), you will need a running container of [traefik](https://traefik.io).
+Now that you have one (or more) blogs running, you might want to check their status, or access the containers...
 
-Feel free to use my companion repo, [prod-stack](https://github.com/ebreton/prod-stack). It will happily provide you with a pre-configured nginx+traefik proxy. You will need [docker-compose](https://docs.docker.com/compose/install/) to start it... and if you are not completely sure what it means, here is a [guide](./docs/VM_INSTALL.md) to setup a VM with everything you need
+A few helpers command are provided within the Makefile:
 
-The [prod-stack](https://github.com/ebreton/prod-stack) will actually offer you more than a proxy-combo: you will get what you could need in production (Nginx, MariaDB, and use of Let's Encrypt for HTTPs)
+### make ps-light
 
-* `NAME=hello make traefik` to get a fresh blog running on <http://localhost/hello>
-* `NAME=bye make traefik` to get another blog running on <http://localhost/bye>
-* and so on...
-
-## Setup
-
-To get everything running, what could be better than one line?
-
--> A one-word single line: `make`
-
-    $ make
-    # Simply start a ghost container making it directly available through $PORT
-    docker run --rm -d --name ghost-local \
-        -v /Users/emb/Documents/git-repos/ghost-in-a-shell/ghost-local:/var/lib/ghost/content \
-        -p 3001:2368 \
-        -e url=http://localhost:3001 \
-        ghost:1-alpine
-    c13be64808bb44e58ba41afc158f8756efa71d613158333225dc12e2c2bcdb36
-
-You will be able to check that everything went ok 1) on <http://localhost:3001>, 2) through the logs, or 3) by running `make ps-light`
+It will act as `docker ps`, displaying less columns
 
     $ make ps-light
     # A lightly formatted version of docker ps
     docker ps --format 'table {{.Names}}\t{{.Image}}\t{{.Status}} ago'
     NAMES               IMAGE                           STATUS ago
-    ghost-local         ghost:1-alpine                  Up About a minute ago
+    ghost-local         ghost:1-alpine                  Up 4 minutes ago
+    phpmyadmin          phpmyadmin/phpmyadmin           Up 2 days ago
+    phpmemcacheadmin    jacksoncage/phpmemcachedadmin   Up 2 days ago
+    db-shared           mariadb:latest                  Up 2 days ago
+    nginx-entrypoint    nginx                           Up 2 days ago
+    memcached           memcached                       Up 2 days ago
+    traefik             traefik:latest                  Up 2 days ago
+
+### [NAME=ghost-local] make shell
+
+It will connect to the running container, as the node user. That will allow you to run ghost-cli commands, or check out the configuration files
+
+    $ make shell
+    docker exec --user node -it ghost-local bash
+    bash-4.3$
+
+### [NAME=ghost-local] make logs
+
+It will display (and follow) the logs
+
+    $ make logs
+    docker logs -f ghost-local
+    [2018-05-23 06:02:21] INFO Finished database migration!
+    [2018-05-23 06:02:23] WARN Theme's file locales/en.json not found.
+    [2018-05-23 06:02:24] INFO Ghost is running in production...
+    [2018-05-23 06:02:24] INFO Your blog is now available on http://localhost/ghost-local/
+    [2018-05-23 06:02:24] INFO Ctrl+C to shut down
+    [2018-05-23 06:02:24] INFO Ghost boot 2.043s
+
+### [NAME=ghost-local] make stop
+
+This will stop and delete the container with given NAME. Data is not lost though, thanks to the locally mounted volume
+
+    $ make stop
+    docker stop ghost-local
+    ghost-local
+    (ghost-in-a-shell-JYrXbwAb)
 
 ## Interested ? 
 
-### Look for what's coming...
+### Look for what's coming next...
 
-1. More doc
-1. Expose commands for HTTPs
+1. Document HTTPs
+1. Make use of MariaDB and Nginx
+1. Consolidate for production
 
 ### Something is missing ?
 
