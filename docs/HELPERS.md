@@ -8,11 +8,12 @@ ToC
 
 - [make vars](#make-vars)
 - [make ps](#make-ps)
+- [[NAME=ghost-local] make cli-version](#nameghost-local-make-cli-version)
 - [[NAME=ghost-local] make shell](#nameghost-local-make-shell)
 - [[NAME=ghost-local] make logs](#nameghost-local-make-logs)
 - [[NAME=ghost-local] make stop](#nameghost-local-make-stop)
 - [make pull](#make-pull)
-- [make restart and make upgrades](#make-restart-and-make-upgrades)
+- [[NAME=ghost-local] make restart and make upgrades](#nameghost-local-make-restart-and-make-upgrades)
 
 <!-- /TOC -->
 
@@ -57,6 +58,15 @@ It will act as `docker ps`, displaying less columns
     memcached           memcached                       Up 2 days ago
     traefik             traefik:latest                  Up 2 days ago
 
+## [NAME=ghost-local] make cli-version
+
+Handy command to get Ghost and ghost-cli versions
+
+    $ make cli-version
+    docker exec -it ghost-local ghost -v
+    Ghost-CLI version: 1.7.3
+    Ghost Version (at /var/lib/ghost): 1.23.0
+
 ## [NAME=ghost-local] make shell
 
 It will connect to the running container, as the node user. That will allow you to run ghost-cli commands, or check out the configuration files
@@ -97,7 +107,7 @@ Fetches the latest docker image (if necessary) from docker hub
     Digest: sha256:46b8d0e2437c46af0c2579a4a717a20c4253da2b75bb4dd4875b7686aaa9ca8d
     Status: Image is up to date for ghost:1-alpine
 
-## make restart and make upgrades
+## [NAME=ghost-local] make restart and make upgrades
 
 Those two commands are simple aliases defined for conveniency:
 
