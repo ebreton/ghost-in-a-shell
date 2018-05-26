@@ -69,6 +69,10 @@ stop:
 pull:
 	docker pull ghost:1-alpine
 
+restart: stop traefik logs
+
+upgrade: pull restart
+
 
 # RELEASE PROCESS related commands
 ###
