@@ -1,10 +1,18 @@
 # Change Log
 
-## [0.1.2](https://github.com/ebreton/ghost-in-a-shell/tree/0.1.2) (2018-05-23)
-[Full Changelog](https://github.com/ebreton/ghost-in-a-shell/compare/qa-release...0.1.2)
+## [0.2.0](https://github.com/ebreton/ghost-in-a-shell/tree/0.2.0) (2018-05-26)
+[Full Changelog](https://github.com/ebreton/ghost-in-a-shell/compare/qa-release...0.2.0)
 
-## [qa-release](https://github.com/ebreton/ghost-in-a-shell/tree/qa-release) (2018-05-23)
-[Full Changelog](https://github.com/ebreton/ghost-in-a-shell/compare/0.1.1...qa-release)
+## [qa-release](https://github.com/ebreton/ghost-in-a-shell/tree/qa-release) (2018-05-26)
+[Full Changelog](https://github.com/ebreton/ghost-in-a-shell/compare/0.1.2...qa-release)
+
+**Merged pull requests:**
+
+- Added make restart/upgrade and subfolder instances [\#7](https://github.com/ebreton/ghost-in-a-shell/pull/7) ([ebreton](https://github.com/ebreton))
+- Added make pull [\#6](https://github.com/ebreton/ghost-in-a-shell/pull/6) ([ebreton](https://github.com/ebreton))
+
+## [0.1.2](https://github.com/ebreton/ghost-in-a-shell/tree/0.1.2) (2018-05-23)
+[Full Changelog](https://github.com/ebreton/ghost-in-a-shell/compare/0.1.1...0.1.2)
 
 **Merged pull requests:**
 
