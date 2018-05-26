@@ -11,7 +11,7 @@ VERSION:=$(shell python update_release.py -v)
 dev: check-env
 	# Simply start a ghost container making it directly available through $$PORT
 	docker run --rm -d --name ${NAME} \
-		-v $(shell pwd)/${NAME}:/var/lib/ghost/content \
+		-v $(shell pwd)/instances/${NAME}:/var/lib/ghost/content \
 		-p ${PORT}:2368 \
 		-e url=http://${DOMAIN}:${PORT} \
 		ghost:1-alpine
@@ -20,7 +20,7 @@ traefik: check-env
 	# Start a ghost container behind traefik (therefore available through 80 or 443), on path $$NAME
 	# Beware of --network used, which is the same one traefik should be using
 	docker run --rm -d --name ${NAME} \
-		-v $(shell pwd)/${NAME}:/var/lib/ghost/content \
+		-v $(shell pwd)/instances/${NAME}:/var/lib/ghost/content \
 		-e url=${PROTOCOL}://${DOMAIN}/${URI} \
 		--network=proxy \
 		--label "traefik.enable=true" \
