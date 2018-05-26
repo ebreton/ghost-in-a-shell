@@ -12,6 +12,7 @@ ToC
 - [[NAME=ghost-local] make logs](#nameghost-local-make-logs)
 - [[NAME=ghost-local] make stop](#nameghost-local-make-stop)
 - [make pull](#make-pull)
+- [make restart and make upgrades](#make-restart-and-make-upgrades)
 
 <!-- /TOC -->
 
@@ -95,3 +96,11 @@ Fetches the latest docker image (if necessary) from docker hub
     1-alpine: Pulling from library/ghost
     Digest: sha256:46b8d0e2437c46af0c2579a4a717a20c4253da2b75bb4dd4875b7686aaa9ca8d
     Status: Image is up to date for ghost:1-alpine
+
+## make restart and make upgrades
+
+Those two commands are simple aliases defined for conveniency:
+
+    restart: stop traefik logs
+
+    upgrade: pull restart

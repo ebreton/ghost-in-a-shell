@@ -52,7 +52,7 @@ You want to play a bit more, and you would like to have multiple Ghosts on your 
 * or leverage the power of [traefik](https://traefik.io) and have multiple ghosts on a **per-path basis** (see section below)
     > e.g.: `NAME=yet-another make traefik`. Head to <http://localhost/yet-another>
 
-If you are worried with your data, be at rest: a local folder is created for every blog you create, named from $NAME variable. Stopping and restarting a blog with the same name will keep using the local data
+If you are worried with your data, be at rest: a local folder is created within path _./instances_, for every blog you create, named from $NAME variable. Stopping and restarting a blog with the same name will keep using the local data.
 
 ## Installation and usage
 
@@ -76,6 +76,8 @@ Command | Description | Variables
  `make logs` | Tail and follow the logs of given Ghost container | NAME
  `make stop` | Stop given Ghost container | NAME
  `make pull` | Update docker image from dockerhub | None
+ `make restart` | Calls `make stop traefik logs` | NAME
+ `make upgrade` | Calls `make pull restart` | NAME
 
 More detailed can be found in [HELPERS.md](./docs/HELPERS.md)
 
