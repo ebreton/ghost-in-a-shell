@@ -75,6 +75,7 @@ Command | Description | Variables
  `make shell` | Connect to given Ghost container | NAME
  `make logs` | Tail and follow the logs of given Ghost container | NAME
  `make stop` | Stop given Ghost container | NAME
+ `make pull` | Update docker image from dockerhub | None
 
 More detailed can be found in [HELPERS.md](./docs/HELPERS.md)
 

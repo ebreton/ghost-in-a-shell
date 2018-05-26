@@ -3,7 +3,7 @@
 # or in .env
 
 .PHONY: dev traefik vars \
-	cli-version ps shell logs stop \
+	cli-version ps shell logs stop pull \
 	app-version release push-qa push-prod update-changelog 
 
 VERSION:=$(shell python update_release.py -v)
@@ -65,6 +65,9 @@ logs:
 
 stop:
 	docker stop ${NAME}
+
+pull:
+	docker pull ghost:1-alpine
 
 
 # RELEASE PROCESS related commands
