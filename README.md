@@ -35,6 +35,7 @@ ToC
     - [Look for what's coming next...](#look-for-whats-coming-next)
     - [Something is missing ?](#something-is-missing-)
 - [Changelog](#changelog)
+    - [Backward incompatible changes](#backward-incompatible-changes)
 - [Contribution](#contribution)
 
 <!-- /TOC -->
@@ -72,6 +73,7 @@ Command | Description | Variables
 ---------|----------|---------
  `make vars` | Display the values of all env vars | All
  `make ps` | Display the running containers | None
+ `make cli-version` | Display Ghost & ghost-cli version | NAME
  `make shell` | Connect to given Ghost container | NAME
  `make logs` | Tail and follow the logs of given Ghost container | NAME
  `make stop` | Stop given Ghost container | NAME
@@ -96,6 +98,10 @@ Head to [github issues](https://github.com/ebreton/ghost-in-a-shell/issues) and 
 ## Changelog
 
 All notable changes to this project are documented in [CHANGELOG.md](./CHANGELOG.md).
+
+### Backward incompatible changes
+
+- v0.2.0 : data volumes are now created within subfolder ./instances. You will need to move your data from the root folder into this new place
 
 ## Contribution
 
