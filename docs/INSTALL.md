@@ -41,7 +41,7 @@ Variables are defined in [.env](../.env) file, and can be modified in the comman
 
 Name | description | default | used by standalone container / traefik
 ---------|----------|----------|---------
- NAME | for the container and the data folder | ghost-local | both
+ NAME | for the container and the data folder (stored within _./instances_) | ghost-local | both
  PROTOCOL | to build the URL | http | traefik
  DOMAIN | to build the URL | localhost | both
  PORT | to build the URL | 3001 | standalone
