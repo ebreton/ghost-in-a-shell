@@ -35,7 +35,7 @@ ToC
     - [Look for what's coming next...](#look-for-whats-coming-next)
     - [Something is missing ?](#something-is-missing-)
 - [Changelog](#changelog)
-    - [Backward incompatible changes](#backward-incompatible-changes)
+    - [:warning: Backward incompatible changes](#warning-backward-incompatible-changes)
 - [Contribution](#contribution)
 
 <!-- /TOC -->
@@ -99,7 +99,7 @@ Head to [github issues](https://github.com/ebreton/ghost-in-a-shell/issues) and 
 
 All notable changes to this project are documented in [CHANGELOG.md](./CHANGELOG.md).
 
-### Backward incompatible changes
+### :warning: Backward incompatible changes
 
 - v0.2.0 : data volumes are now created within subfolder ./instances. You will need to move your data from the root folder into this new place
 
