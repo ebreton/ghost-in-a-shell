@@ -2,13 +2,13 @@
 # Default values, can be overridden either on the command line of make
 # or in .env
 
-.PHONY: dev traefik vars \
+.PHONY: standalone traefik vars \
 	cli-version ps shell logs stop pull \
 	app-version release push-qa push-prod update-changelog 
 
 VERSION:=$(shell python update_release.py -v)
 
-dev: check-env
+standalone: check-env
 	# Simply start a ghost container making it directly available through $$PORT
 	docker run --rm -d --name ${NAME} \
 		-v $(shell pwd)/instances/${NAME}:/var/lib/ghost/content \

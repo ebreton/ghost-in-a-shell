@@ -1,3 +1,4 @@
 *.pyc
 themes
 instances
+tmp
