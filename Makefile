@@ -29,6 +29,27 @@ traefik: check-env
 		--label "traefik.frontend.rule=Host:${DOMAIN};PathPrefix:/${URI}" \
 		ghost:1-alpine
 
+prod: check-prod-env
+	# Same configuration as make `traefik`, specifying DB
+	docker run --rm -d --name ${NAME} \
+		-v $(shell pwd)/instances/${NAME}:/var/lib/ghost/content \
+		-e database__client=mysql \
+		-e database__connection__host=db-shared \
+		-e database__connection__user=root \
+		-e database__connection__password=${MYSQL_ROOT_PASSWORD} \
+		-e database__connection__database=${NAME} \
+		-e mail__transport=SMTP \
+		-e mail__options__service=Mailgun \
+		-e mail__options__auth__user=${MAILGUN_LOGIN} \
+		-e mail__options__auth__pass=${MAILGUN_PASSWORD} \
+		-e url=${PROTOCOL}://${DOMAIN}/${URI} \
+		--network=proxy \
+		--label "traefik.enable=true" \
+		--label "traefik.backend=${NAME}" \
+		--label "traefik.frontend.entryPoints=${PROTOCOL}" \
+		--label "traefik.frontend.rule=Host:${DOMAIN};PathPrefix:/${URI}" \
+		ghost:1-alpine
+
 vars: check-env
 	# values that will be used to create the blog URL
 	@echo '  NAME=${NAME}'
@@ -36,6 +57,19 @@ vars: check-env
 	@echo '  DOMAIN=${DOMAIN}'
 	@echo '  PORT=${PORT}'
 	@echo '  URI=${URI}'
+	# values used for production
+	@echo '  MYSQL_ROOT_PASSWORD=${MYSQL_ROOT_PASSWORD}'
+	@echo '  MAILGUN_LOGIN=${MAILGUN_LOGIN}'
+	@echo '  MAILGUN_PASSWORD=${MAILGUN_PASSWORD}'
+
+check-prod-env:
+ifeq ($(wildcard prod.env),)
+	@echo "prod.env file is missing"
+	@exit 1
+else
+include prod.env
+export
+endif
 
 check-env:
 ifeq ($(wildcard .env),)

@@ -1,4 +1,7 @@
-*.pyc
+prod.env
+
 themes
 instances
 tmp
+
+*.pyc
