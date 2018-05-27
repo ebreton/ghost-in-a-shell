@@ -29,6 +29,11 @@ qa: check-env
 		--label "traefik.frontend.rule=Host:${DOMAIN};PathPrefix:/${URI}" \
 		ghost:1-alpine
 
+# for backward compatibility
+traefik: qa
+	@echo ""
+	@echo "!! DEPRECATION WARNING: 'make traefik' is replaced by 'make qa'. This command will be dropped in version 0.4"
+
 prod: check-prod-env
 	# Same configuration as make `traefik`, specifying DB
 	docker run --rm -d --user node --name ${NAME} \
