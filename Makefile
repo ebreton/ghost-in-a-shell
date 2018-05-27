@@ -3,7 +3,7 @@
 # or in .env
 
 .PHONY: standalone traefik vars \
-	cli-version ps shell logs stop pull \
+	cli-version ps shell logs stop pull restart upgrade \
 	app-version release push-qa push-prod update-changelog 
 
 VERSION:=$(shell python update_release.py -v)
