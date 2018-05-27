@@ -2,13 +2,13 @@
 # Default values, can be overridden either on the command line of make
 # or in .env
 
-.PHONY: standalone traefik vars \
-	cli-version ps shell logs stop pull restart upgrade \
+.PHONY: dev qa prod vars \
+	cli-version ps shell logs stop pull restart restart-prod upgrade upgrade-prod \
 	app-version release push-qa push-prod update-changelog 
 
 VERSION:=$(shell python update_release.py -v)
 
-standalone: check-env
+dev: check-env
 	# Simply start a ghost container making it directly available through $$PORT
 	docker run --rm -d --name ${NAME} \
 		-v $(shell pwd)/instances/${NAME}:/var/lib/ghost/content \
@@ -16,7 +16,7 @@ standalone: check-env
 		-e url=http://${DOMAIN}:${PORT} \
 		ghost:1-alpine
 
-traefik: check-env
+qa: check-env
 	# Start a ghost container behind traefik (therefore available through 80 or 443), on path $$NAME
 	# Beware of --network used, which is the same one traefik should be using
 	docker run --rm -d --name ${NAME} \
@@ -31,7 +31,7 @@ traefik: check-env
 
 prod: check-prod-env
 	# Same configuration as make `traefik`, specifying DB
-	docker run --rm -d --name ${NAME} \
+	docker run --rm -d --user node --name ${NAME} \
 		-v $(shell pwd)/instances/${NAME}:/var/lib/ghost/content \
 		-e database__client=mysql \
 		-e database__connection__host=db-shared \
@@ -48,16 +48,17 @@ prod: check-prod-env
 		--label "traefik.backend=${NAME}" \
 		--label "traefik.frontend.entryPoints=${PROTOCOL}" \
 		--label "traefik.frontend.rule=Host:${DOMAIN};PathPrefix:/${URI}" \
-		ghost:1-alpine
+		ghost:1-alpine  
 
 vars: check-env
-	# values that will be used to create the blog URL
+	# values used for dev
+	@echo '  PORT=${PORT}'
+	# values used by traefik (qa & prod)
 	@echo '  NAME=${NAME}'
 	@echo '  PROTOCOL=${PROTOCOL}'
 	@echo '  DOMAIN=${DOMAIN}'
-	@echo '  PORT=${PORT}'
 	@echo '  URI=${URI}'
-	# values used for production
+	# values used for prod
 	@echo '  MYSQL_ROOT_PASSWORD=${MYSQL_ROOT_PASSWORD}'
 	@echo '  MAILGUN_LOGIN=${MAILGUN_LOGIN}'
 	@echo '  MAILGUN_PASSWORD=${MAILGUN_PASSWORD}'
@@ -103,9 +104,11 @@ stop:
 pull:
 	docker pull ghost:1-alpine
 
-restart: stop traefik logs
+restart: stop qa logs
+restart-prod: stop prod logs
 
 upgrade: pull restart
+upgrade-prod: pull restart-prod
 
 
 # RELEASE PROCESS related commands
