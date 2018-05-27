@@ -39,13 +39,13 @@ Feel free to use my companion repo, [prod-stack](https://github.com/ebreton/prod
 
 Variables are defined in [.env](../.env) file, and can be modified in the command line when calling `make`. The file is self-documented, but here is a summary of the variables and default values:
 
-Name | description | default | used by standalone container / traefik
+Name | description | default | deployment where used
 ---------|----------|----------|---------
- NAME | for the container and the data folder (stored within _./instances_) | ghost-local | both
- PROTOCOL | to build the URL | http | traefik
- DOMAIN | to build the URL | localhost | both
- PORT | to build the URL | 3001 | standalone
- URI | to build the URL | ${NAME} | traefik
+ NAME | for the container and the data folder (stored within _./instances_) | ghost-local | dev, qa, prod
+ PROTOCOL | to build the URL | http | qa, prod (traefik)
+ DOMAIN | to build the URL | localhost | dev, qa, prod
+ PORT | to build the URL | 3001 | dev
+ URI | to build the URL | ${NAME} | qa, prod (traefik)
 
 ### Run on a per-port basis
 
@@ -86,9 +86,9 @@ You will be able to check that everything went ok
 
 The [prod-stack](https://github.com/ebreton/prod-stack) will actually offer you more than a proxy-combo: you will get what you could need in production (Nginx, MariaDB, and use of Let's Encrypt for HTTPs)
 
-Once you have started your stack as indicated on [prod-stack](https://github.com/ebreton/prod-stack), you will just need to run `make traefik` and head to <http://localhost/ghost-local>
+Once you have started your stack as indicated on [prod-stack](https://github.com/ebreton/prod-stack), you will just need to run `make qa` and head to <http://localhost/ghost-local>
 
-    $ make traefik
+    $ make qa
     # Start a ghost container behind traefik (therefore available through 80 or 443), on path $NAME
     # Beware of --network used, which is the same one traefik should be using
     docker run --rm -d --name ghost-local \
@@ -104,8 +104,8 @@ Once you have started your stack as indicated on [prod-stack](https://github.com
 
 If you have already launched a container with the default environment variables, you will need to define another NAME:
 
-* `NAME=hello make traefik` to get a fresh blog running on <http://localhost/hello>
-* `NAME=bye make traefik` to get another blog running on <http://localhost/bye>
+* `NAME=hello make qa` to get a fresh blog running on <http://localhost/hello>
+* `NAME=bye make qa` to get another blog running on <http://localhost/bye>
 * and so on...
 
 ### HTTPs ?

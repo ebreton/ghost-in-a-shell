@@ -51,7 +51,7 @@ You want to play a bit more, and you would like to have multiple Ghosts on your 
 * Either use *make* again and again with different variables, to get your blogs on a **per-port basis**
     > e.g.: `NAME=another PORT=3002 make` for a second blog on <http://localhost:3002>
 * or leverage the power of [traefik](https://traefik.io) and have multiple ghosts on a **per-path basis** (see section below)
-    > e.g.: `NAME=yet-another make traefik`. Head to <http://localhost/yet-another>
+    > e.g.: `NAME=yet-another make qa`. Head to <http://localhost/yet-another>
 
 If you are worried with your data, be at rest: a local folder is created within path _./instances_, for every blog you create, named from $NAME variable. Stopping and restarting a blog with the same name will keep using the local data.
 
@@ -59,7 +59,7 @@ If you are worried with your data, be at rest: a local folder is created within 
 
 Installation is straightforward if you simply wish to bridge to a container port (3001 by default). `make` will do.
 
-However, it is not really convenient if you wish to serve on standard ports (80 or 443) and if you want anyone to access your blog easily. In this case, you will need to setup traefik router, and run `make traefik`
+However, it is not really convenient if you wish to serve on standard ports (80 or 443) and if you want anyone to access your blog easily. In this case, you will need to setup traefik router, and run `make qa`
 
 You will find details and a step-by-step guide for both scenario in [INSTALL.md](./docs/INSTALL.md)
 
@@ -91,7 +91,6 @@ More detailed can be found in [HELPERS.md](./docs/HELPERS.md)
 
 ### Look for what's coming next...
 
-1. Make use of MariaDB and Nginx
 1. Add a `make migration` to change URI easily (and update paths)
 1. Consolidate for production (a bit of monitoring, backup)
 
