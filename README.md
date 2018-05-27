@@ -63,6 +63,10 @@ However, it is not really convenient if you wish to serve on standard ports (80 
 
 You will find details and a step-by-step guide for both scenario in [INSTALL.md](./docs/INSTALL.md)
 
+If you'd rather have a **Tutorial** than a raw INSTALL.md file, feel free to check my "_Ghost in A shell_" series:
+1. [Part I : localhost](https://dev.to/ebreton/ghost-in-a-shell---part-i--localhost-5he9)
+1. [Part II : HTTPs is the norm](https://dev.to/ebreton/ghost-in-a-shell---part-ii---https-is-the-norm-1jj4)
+
 ## Helpers for developers
 
 Now that you have one (or more) blogs running, you might want to check their status, or access the containers...
