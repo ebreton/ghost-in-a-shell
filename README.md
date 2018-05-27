@@ -92,7 +92,8 @@ More detailed can be found in [HELPERS.md](./docs/HELPERS.md)
 ### Look for what's coming next...
 
 1. Make use of MariaDB and Nginx
-1. Consolidate for production
+1. Add a `make migration` to change URI easily (and update paths)
+1. Consolidate for production (a bit of monitoring, backup)
 
 ### Something is missing ?
 
