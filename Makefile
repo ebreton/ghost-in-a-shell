@@ -67,13 +67,17 @@ vars: check-env
 	@echo '  MYSQL_ROOT_PASSWORD=${MYSQL_ROOT_PASSWORD}'
 	@echo '  MAILGUN_LOGIN=${MAILGUN_LOGIN}'
 	@echo '  MAILGUN_PASSWORD=${MAILGUN_PASSWORD}'
+	# values used for load tests
+	@echo '  GATLING_BASE_URL=${GATLING_BASE_URL}'
+	@echo '  GATLING_USERS=${GATLING_USERS}'
+	@echo '  GATLING_RAMP=${GATLING_RAMP}'
 
 check-prod-env:
-ifeq ($(wildcard prod.env),)
-	@echo "prod.env file is missing"
+ifeq ($(wildcard etc/prod.env),)
+	@echo "etc/prod.env file is missing"
 	@exit 1
 else
-include prod.env
+include etc/prod.env
 export
 endif
 
@@ -86,6 +90,17 @@ include .env
 export
 endif
 
+GATLING_BASE_URL?=${PROTOCOL}://${NAME}:2368/${URI}
+GATLING_USERS?=10
+GATLING_RAMP?=20
+
+gatling:
+	docker run -it --rm \
+		-v $(shell pwd)/etc/gatling-conf.scala:/opt/gatling/user-files/simulations/ghost/GhostFrontend.scala \
+		-v $(shell pwd)/gatling-results:/opt/gatling/results \
+		-e JAVA_OPTS="-Dusers=${GATLING_USERS} -Dramp=${GATLING_RAMP} -DbaseUrl=${GATLING_BASE_URL}" \
+		--network=proxy \
+		denvazh/gatling -m -s ghost.GhostFrontend
 
 # DOCKER related commands
 ###
