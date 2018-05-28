@@ -31,11 +31,12 @@ ToC
 - [Overview](#overview)
 - [Installation and usage](#installation-and-usage)
 - [Helpers for developers](#helpers-for-developers)
+- [[WIP] :construction: Production readyness](#wip-construction-production-readyness)
 - [Interested ?](#interested-)
     - [Look for what's coming next...](#look-for-whats-coming-next)
     - [Something is missing ?](#something-is-missing-)
 - [Changelog](#changelog)
-    - [:warning: Backward incompatible changes](#warning-backward-incompatible-changes)
+- [:warning: Backward incompatible changes](#warning-backward-incompatible-changes)
 - [Contribution](#contribution)
 
 <!-- /TOC -->
@@ -57,9 +58,12 @@ If you are worried with your data, be at rest: a local folder is created within 
 
 ## Installation and usage
 
-Installation is straightforward if you simply wish to bridge to a container port (3001 by default). `make` will do.
 
-However, it is not really convenient if you wish to serve on standard ports (80 or 443) and if you want anyone to access your blog easily. In this case, you will need to setup traefik router, and run `make qa`
+Command | Description | Remarks
+---------|----------|---------
+ `make` | straightforward installation if you simply wish to bridge to a container port (3001 by default) | also known as `make dev`
+ `make qa` | The former being not really convenient if you wish to serve on standard ports (80 or 443) and if you want anyone to access your blog easily. In this case, this command sets up a traefik router | recommended usage of [prod-stack](https://github.com/ebreton/prod-stack)
+ <code>make&nbsp;prod</code> | Same as above, using a MariaDB instead of SQLite and an email provider (Mailgun) | requires a (free) account at Mailgun
 
 You will find details and a step-by-step guide for both scenario in [INSTALL.md](./docs/INSTALL.md)
 
@@ -75,17 +79,30 @@ A few helpers are provided within the Makefile:
 
 Command | Description | Variables
 ---------|----------|---------
- `make vars` | Display the values of all env vars | All
+ <code>make&nbsp;vars&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</code> | Display the values of all env vars | All
  `make ps` | Display the running containers | None
  `make cli-version` | Display Ghost & ghost-cli version | NAME
  `make shell` | Connect to given Ghost container | NAME
  `make logs` | Tail and follow the logs of given Ghost container | NAME
  `make stop` | Stop given Ghost container | NAME
  `make pull` | Update docker image from dockerhub | None
- `make restart` | Calls `make stop traefik logs` | NAME
- `make upgrade` | Calls `make pull restart` | NAME
+ `make restart` | Calls `make stop qa logs` | NAME (and from `make qa`: PROTOCOL, DOMAIN, URI)
+ `make upgrade` | Calls `make pull restart` | same as above
+ `make gatling` | Execute load tests | GATLING_BASE_URL, GATLING_USERS, GATLING_RAMP
+
 
 More detailed can be found in [HELPERS.md](./docs/HELPERS.md)
+
+## [WIP] :construction: Production readyness
+
+Environment variables are defined in ./etc/prod.env, e.g MYSQL_ROOT_PASSWORD, MAILGUN_LOGIN, MAILGUN_PASSWORD
+
+Command | Description 
+---------|----------
+ <code>make&nbsp;prod&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</code> | Runs Ghost behind a proxy (Nginx+Traefik), on HTTPs, with a (Maria)DB and Mailgun email provider
+ `make restart-prod` | Calls `make stop prod logs`
+ `make upgrade-prod` | Calls `make pull restart-prod`
+
 
 ## Interested ? 
 
@@ -107,7 +124,7 @@ Head to [github issues](https://github.com/ebreton/ghost-in-a-shell/issues) and 
 
 All notable changes to this project are documented in [CHANGELOG.md](./CHANGELOG.md).
 
-### :warning: Backward incompatible changes
+## :warning: Backward incompatible changes
 
 - :boom: v0.2.0 : data volumes are now created within subfolder ./instances. You will need to move your data from the root folder into this new place
 - :alarm_clock: v0.4.0: `make traefik` replaced with `make qa` instead
