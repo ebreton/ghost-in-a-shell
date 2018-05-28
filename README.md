@@ -31,7 +31,7 @@ ToC
 - [Overview](#overview)
 - [Installation and usage](#installation-and-usage)
 - [Helpers for developers](#helpers-for-developers)
-- [[WIP] :construction: Production readyness](#wip-construction-production-readyness)
+- [:construction: Production readyness](#construction-production-readyness)
 - [Interested ?](#interested-)
     - [Look for what's coming next...](#look-for-whats-coming-next)
     - [Something is missing ?](#something-is-missing-)
@@ -61,8 +61,8 @@ If you are worried with your data, be at rest: a local folder is created within 
 
 Command | Description | Remarks
 ---------|----------|---------
- `make` | straightforward installation if you simply wish to bridge to a container port (3001 by default) | also known as `make dev`
- `make qa` | The former being not really convenient if you wish to serve on standard ports (80 or 443) and if you want anyone to access your blog easily. In this case, this command sets up a traefik router | recommended usage of [prod-stack](https://github.com/ebreton/prod-stack)
+ `make` | straightforward (local) installation if you simply wish to bridge a container port on your host (3001 by default) | also known as `make dev`
+ `make qa` | The former being not really convenient if you wish to serve on standard ports (80 or 443), and if you want anyone to access your blog easily, this command sets up a traefik router | recommended usage of [prod-stack](https://github.com/ebreton/prod-stack)
  <code>make&nbsp;prod</code> | Same as above, using a MariaDB instead of SQLite and an email provider (Mailgun) | requires a (free) account at Mailgun
 
 You will find details and a step-by-step guide for both scenario in [INSTALL.md](./docs/INSTALL.md)
@@ -70,6 +70,7 @@ You will find details and a step-by-step guide for both scenario in [INSTALL.md]
 If you'd rather have a **Tutorial** than a raw INSTALL.md file, feel free to check my "_Ghost in A shell_" series:
 1. [Part I : localhost](https://dev.to/ebreton/ghost-in-a-shell---part-i--localhost-5he9)
 1. [Part II : HTTPs is the norm](https://dev.to/ebreton/ghost-in-a-shell---part-ii---https-is-the-norm-1jj4)
+1. :construction: Part III - To production, and beyond ! 
 
 ## Helpers for developers
 
@@ -79,7 +80,7 @@ A few helpers are provided within the Makefile:
 
 Command | Description | Variables
 ---------|----------|---------
- <code>make&nbsp;vars&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</code> | Display the values of all env vars | All
+ `make vars` | Display the values of all env vars | All
  `make ps` | Display the running containers | None
  `make cli-version` | Display Ghost & ghost-cli version | NAME
  `make shell` | Connect to given Ghost container | NAME
@@ -88,14 +89,17 @@ Command | Description | Variables
  `make pull` | Update docker image from dockerhub | None
  `make restart` | Calls `make stop qa logs` | NAME (and from `make qa`: PROTOCOL, DOMAIN, URI)
  `make upgrade` | Calls `make pull restart` | same as above
- `make gatling` | Execute load tests | GATLING_BASE_URL, GATLING_USERS, GATLING_RAMP
+ <code>make&nbsp;gatling&nbsp;&nbsp;&nbsp;&nbsp;</code> | Execute load tests | GATLING_BASE_URL, GATLING_USERS, GATLING_RAMP
 
 
 More detailed can be found in [HELPERS.md](./docs/HELPERS.md)
 
-## [WIP] :construction: Production readyness
+## :construction: Production readyness
 
-Environment variables are defined in ./etc/prod.env, e.g MYSQL_ROOT_PASSWORD, MAILGUN_LOGIN, MAILGUN_PASSWORD
+Environment variables are defined in ./etc/prod.env, e.g:
+- MYSQL_ROOT_PASSWORD
+- MAILGUN_LOGIN
+- MAILGUN_PASSWORD
 
 Command | Description 
 ---------|----------
@@ -112,8 +116,8 @@ Command | Description
     - https://www.ghostforbeginners.com/smaller-images/
     - https://attilathedud.me/photo-gallery-on-ghost-blog/
     1. Add (selenium) tests
+1. A bit of monitoring (backup)
 1. Add a `make migration` to change URI easily (and update paths)
-1. Consolidate for production (a bit of monitoring, backup)
 
 ### Something is missing ?
 
