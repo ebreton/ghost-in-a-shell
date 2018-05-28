@@ -137,6 +137,13 @@ upgrade-prod: pull restart-prod
 app-version:
 	@echo VERSION set to $(VERSION)
 
+release-vars:
+	@echo '  GITHUB_OWNER=${GITHUB_OWNER}'
+	@echo '  GITHUB_REPO=${GITHUB_REPO}'
+	@echo '  GITHUB_USER=${GITHUB_USER}'
+	@echo '  GITHUB_TOKEN=${GITHUB_TOKEN}'
+	@echo '  CHANGELOG_GITHUB_TOKEN=${CHANGELOG_GITHUB_TOKEN}'
+
 release:
 	# make sure we are in master
 	python update_release.py check --branch=master
