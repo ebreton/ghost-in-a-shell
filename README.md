@@ -91,6 +91,10 @@ More detailed can be found in [HELPERS.md](./docs/HELPERS.md)
 
 ### Look for what's coming next...
 
+1. Configure NGinx for images
+    - https://www.ghostforbeginners.com/smaller-images/
+    - https://attilathedud.me/photo-gallery-on-ghost-blog/
+    1. Add (selenium) tests
 1. Add a `make migration` to change URI easily (and update paths)
 1. Consolidate for production (a bit of monitoring, backup)
 
@@ -105,7 +109,8 @@ All notable changes to this project are documented in [CHANGELOG.md](./CHANGELOG
 
 ### :warning: Backward incompatible changes
 
-- v0.2.0 : data volumes are now created within subfolder ./instances. You will need to move your data from the root folder into this new place
+- :boom: v0.2.0 : data volumes are now created within subfolder ./instances. You will need to move your data from the root folder into this new place
+- :alarm_clock: v0.4.0: `make traefik` replaced with `make qa` instead
 
 ## Contribution
 
