@@ -1,5 +1,8 @@
 # Change Log
 
+## [0.2.1](https://github.com/ebreton/ghost-in-a-shell/tree/0.2.1) (2018-05-28)
+[Full Changelog](https://github.com/ebreton/ghost-in-a-shell/compare/qa-release...0.2.1)
+
 ## [qa-release](https://github.com/ebreton/ghost-in-a-shell/tree/qa-release) (2018-05-28)
 [Full Changelog](https://github.com/ebreton/ghost-in-a-shell/compare/0.2.0...qa-release)
 
