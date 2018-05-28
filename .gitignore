@@ -1,7 +1,9 @@
-prod.env
+etc/prod.env
 
 themes
 instances
+
+gatling-results
 tmp
 
 *.pyc
