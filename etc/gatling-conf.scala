@@ -50,9 +50,9 @@ class GhostFrontend extends Simulation {
   setUp(
     scn.inject(
       atOnceUsers(nbUsers),
+      constantUsersPerSec(5) during (myRamp seconds),
       rampUsers(nbUsers) over (myRamp seconds),
-      constantUsersPerSec(20) during (myRamp seconds),
-      heavisideUsers(100) over (myRamp seconds)
+      heavisideUsers(10) over (myRamp seconds)
     ).protocols(httpConf)
   )
 }
