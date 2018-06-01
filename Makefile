@@ -14,7 +14,7 @@ dev: check-env
 		-v $(shell pwd)/instances/${NAME}:/var/lib/ghost/content \
 		-p ${PORT}:2368 \
 		-e url=http://${DOMAIN}:${PORT} \
-		ghost:1-alpine
+		ghost:${GHOST_VERSION}-alpine
 
 qa: check-env
 	# Start a ghost container behind traefik (therefore available through 80 or 443), on path $$NAME
@@ -27,7 +27,7 @@ qa: check-env
 		--label "traefik.backend=${NAME}" \
 		--label "traefik.frontend.entryPoints=${PROTOCOL}" \
 		--label "traefik.frontend.rule=Host:${DOMAIN};PathPrefix:/${URI}" \
-		ghost:1-alpine
+		ghost:${GHOST_VERSION}-alpine
 
 # for backward compatibility
 traefik: qa
@@ -36,7 +36,7 @@ traefik: qa
 
 prod: check-prod-env
 	# Same configuration as make `traefik`, specifying DB
-	docker run --rm -d --user node --name ${NAME} \
+	docker run --rm -d --name ${NAME} \
 		-v $(shell pwd)/instances/${NAME}:/var/lib/ghost/content \
 		-e database__client=mysql \
 		-e database__connection__host=db-shared \
@@ -53,13 +53,15 @@ prod: check-prod-env
 		--label "traefik.backend=${NAME}" \
 		--label "traefik.frontend.entryPoints=${PROTOCOL}" \
 		--label "traefik.frontend.rule=Host:${DOMAIN};PathPrefix:/${URI}" \
-		ghost:1-alpine  
+		ghost:${GHOST_VERSION}-alpine  
 
 vars: check-env
+	# common
+	@echo '  NAME=${NAME}'
+	@echo '  GHOST_VERSION=${GHOST_VERSION}'
 	# values used for dev
 	@echo '  PORT=${PORT}'
 	# values used by traefik (qa & prod)
-	@echo '  NAME=${NAME}'
 	@echo '  PROTOCOL=${PROTOCOL}'
 	@echo '  DOMAIN=${DOMAIN}'
 	@echo '  URI=${URI}'
@@ -91,8 +93,8 @@ export
 endif
 
 GATLING_BASE_URL?=${PROTOCOL}://${NAME}:2368/${URI}
-GATLING_USERS?=10
-GATLING_RAMP?=20
+GATLING_USERS?=3
+GATLING_RAMP?=5
 
 gatling:
 	docker run -it --rm \
@@ -122,12 +124,14 @@ stop:
 	docker stop ${NAME}
 
 pull:
-	docker pull ghost:1-alpine
+	docker pull ghost:${GHOST_VERSION}-alpine
 
-restart: stop qa logs
+restart: stop dev logs
+restart-qa: stop qa logs
 restart-prod: stop prod logs
 
 upgrade: pull restart
+upgrade-qa: pull restart-qa
 upgrade-prod: pull restart-prod
 
 
