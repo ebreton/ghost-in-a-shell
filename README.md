@@ -28,15 +28,16 @@ ToC
 
 <!-- TOC -->
 
+- [ToC](#toc)
 - [Overview](#overview)
 - [Installation and usage](#installation-and-usage)
 - [Helpers for developers](#helpers-for-developers)
-- [:construction: Production readyness](#construction-production-readyness)
-- [Interested ?](#interested-)
+- [:construction: Production readyness](#construction--production-readyness)
+- [Interested ?](#interested)
     - [Look for what's coming next...](#look-for-whats-coming-next)
-    - [Something is missing ?](#something-is-missing-)
+    - [Something is missing ?](#something-is-missing)
 - [Changelog](#changelog)
-- [:warning: Backward incompatible changes](#warning-backward-incompatible-changes)
+- [:warning: Backward incompatible changes](#warning--backward-incompatible-changes)
 - [Contribution](#contribution)
 
 <!-- /TOC -->
@@ -112,12 +113,12 @@ Command | Description
 
 ### Look for what's coming next...
 
-1. Configure NGinx for images
-    - https://www.ghostforbeginners.com/smaller-images/
-    - https://attilathedud.me/photo-gallery-on-ghost-blog/
-    1. Add (selenium) tests
-1. A bit of monitoring (backup)
-1. Add a `make migration` to change URI easily (and update paths)
+1. Allow argument $NAME on make command wich will load full .env from ./instances/$NAME
+1. Write make migrate
+1. Write make try-upgrade
+1. Write make list to get all created instances
+1. Add latest Ghost/-cli version in make cli-version
+1. Configure NGinx for cache
 
 ### Something is missing ?
 
