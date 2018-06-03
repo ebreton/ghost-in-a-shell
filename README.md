@@ -34,8 +34,8 @@ ToC
 - [Helpers for developers](#helpers-for-developers)
 - [:construction: Production readyness](#construction--production-readyness)
 - [Interested ?](#interested)
-    - [Look for what's coming next...](#look-for-whats-coming-next)
-    - [Something is missing ?](#something-is-missing)
+  - [Look for what's coming next...](#look-for-whats-coming-next)
+  - [Something is missing ?](#something-is-missing)
 - [Changelog](#changelog)
 - [:warning: Backward incompatible changes](#warning--backward-incompatible-changes)
 - [Contribution](#contribution)
@@ -55,10 +55,11 @@ You want to play a bit more, and you would like to have multiple Ghosts on your 
 * or leverage the power of [traefik](https://traefik.io) and have multiple ghosts on a **per-path basis** (see section below)
     > e.g.: `NAME=yet-another make qa`. Head to <http://localhost/yet-another>
 
+By the way, you would like to run an old version of Ghost ? `GHOST_VERSION=x.x.x make qa` will do this for you. You can use whatever version is available on [docker hub](https://hub.docker.com/_/ghost)
+
 If you are worried with your data, be at rest: a local folder is created within path _./instances_, for every blog you create, named from $NAME variable. Stopping and restarting a blog with the same name will keep using the local data.
 
 ## Installation and usage
-
 
 Command | Description | Remarks
 ---------|----------|---------
@@ -83,7 +84,7 @@ Command | Description | Variables
 ---------|----------|---------
  `make vars` | Display the values of all env vars | All
  `make ps` | Display the running containers | None
- `make cli-version` | Display Ghost & ghost-cli version | NAME
+ `make cli-version` | Display Ghost & ghost-cli version, + latest version available on docker hub | NAME
  `make shell` | Connect to given Ghost container | NAME
  `make logs` | Tail and follow the logs of given Ghost container | NAME
  `make stop` | Stop given Ghost container | NAME
@@ -117,7 +118,6 @@ Command | Description
 1. Write make migrate
 1. Write make try-upgrade
 1. Write make list to get all created instances
-1. Add latest Ghost/-cli version in make cli-version
 1. Configure NGinx for cache
 
 ### Something is missing ?

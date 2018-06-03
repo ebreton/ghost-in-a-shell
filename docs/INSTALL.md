@@ -7,14 +7,16 @@ ToC
 
 <!-- TOC -->
 
-- [Pre-requisites](#pre-requisites)
-    - [To run on a per-port basis](#to-run-on-a-per-port-basis)
-    - [To run on a per-path basis](#to-run-on-a-per-path-basis)
-- [Setup](#setup)
-    - [Default configuration](#default-configuration)
-    - [Run on a per-port basis](#run-on-a-per-port-basis)
-    - [Run on a per-path basis](#run-on-a-per-path-basis)
-    - [HTTPs ?](#https-)
+- [](#markdownlint-disable-md034)
+    - [ToC](#toc)
+    - [Pre-requisites](#pre-requisites)
+        - [To run on a per-port basis](#to-run-on-a-per-port-basis)
+        - [To run on a per-path basis](#to-run-on-a-per-path-basis)
+    - [Setup](#setup)
+        - [Default configuration](#default-configuration)
+        - [Run on a per-port basis](#run-on-a-per-port-basis)
+        - [Run on a per-path basis](#run-on-a-per-path-basis)
+        - [HTTPs ?](#https)
 
 <!-- /TOC -->
 
@@ -24,6 +26,7 @@ ToC
 
 * [make](https://www.gnu.org/software/make/)
 * [docker](https://www.docker.com/community-edition)
+* python (2 or 3) with requests library (`pip install requests` or running your commands from a `pipenv shell`) if you want to have a few extended features, like `make cli-version` returning the latest ghost version available on docker hub.
 
 That's it!
 
@@ -46,10 +49,11 @@ Name | description | default | deployment where used
  DOMAIN | to build the URL | localhost | dev, qa, prod
  PORT | to build the URL | 3001 | dev
  URI | to build the URL | ${NAME} | qa, prod (traefik)
+ GHOST_VERSION | which docker image to use | 1 | dev, qa, prod. '-alpine' is added after the version number
 
 ### Run on a per-port basis
 
-> The following variables will be used: NAME, DOMAIN, PORT, URI
+> The following variables will be used: NAME, DOMAIN, PORT, URI, GHOST_VERSION
 
 To get everything running, what could be better than one line?
 
@@ -80,9 +84,13 @@ You will be able to check that everything went ok
 
     NAME=another PORT=3002 make
 
+> Another version ?
+
+    GHOST_VERSION=1.11 NAME=old-buddy PORT=3003 make
+
 ### Run on a per-path basis
 
-> The following variables will be used: NAME, PROTOCOL, DOMAIN, URI
+> The following variables will be used: NAME, PROTOCOL, DOMAIN, URI, GHOST_VERSION
 
 The [prod-stack](https://github.com/ebreton/prod-stack) will actually offer you more than a proxy-combo: you will get what you could need in production (Nginx, MariaDB, and use of Let's Encrypt for HTTPs)
 
@@ -105,7 +113,7 @@ Once you have started your stack as indicated on [prod-stack](https://github.com
 If you have already launched a container with the default environment variables, you will need to define another NAME:
 
 * `NAME=hello make qa` to get a fresh blog running on <http://localhost/hello>
-* `NAME=bye make qa` to get another blog running on <http://localhost/bye>
+* `GHOST_VERSION=0.10 NAME=bye make qa` to get another (old) blog running on <http://localhost/bye>
 * and so on...
 
 ### HTTPs ?
