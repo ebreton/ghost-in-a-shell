@@ -109,6 +109,7 @@ gatling:
 
 cli-version:
 	docker exec -it ${NAME} ghost -v
+	@echo Latest version on Docker Hub: $(shell python find_latest_versions.py)
 
 ps:
 	# A lightly formatted version of docker ps
