@@ -6,14 +6,16 @@ ToC
 
 <!-- TOC -->
 
-- [make vars](#make-vars)
-- [make ps](#make-ps)
-- [[NAME=ghost-local] make cli-version](#nameghost-local-make-cli-version)
-- [[NAME=ghost-local] make shell](#nameghost-local-make-shell)
-- [[NAME=ghost-local] make logs](#nameghost-local-make-logs)
-- [[NAME=ghost-local] make stop](#nameghost-local-make-stop)
-- [make pull](#make-pull)
-- [[NAME=ghost-local] make restart and make upgrades](#nameghost-local-make-restart-and-make-upgrades)
+- [Helpers for developers](#helpers-for-developers)
+    - [ToC](#toc)
+    - [make vars](#make-vars)
+    - [make ps](#make-ps)
+    - [[NAME=ghost-local] make cli-version](#nameghost-local-make-cli-version)
+    - [[NAME=ghost-local] make shell](#nameghost-local-make-shell)
+    - [[NAME=ghost-local] make logs](#nameghost-local-make-logs)
+    - [[NAME=ghost-local] make stop](#nameghost-local-make-stop)
+    - [make pull](#make-pull)
+    - [[NAME=ghost-local] make restart and make upgrades](#nameghost-local-make-restart-and-make-upgrades)
 
 <!-- /TOC -->
 
@@ -60,12 +62,13 @@ It will act as `docker ps`, displaying less columns
 
 ## [NAME=ghost-local] make cli-version
 
-Handy command to get Ghost and ghost-cli versions
+Handy command to get Ghost and ghost-cli versions, plus the latest ghost version available on the Docker Hub. You will need python (2 or 3) installed to run this command, with the module requests (`pip install requests` or running your commands from a `pipenv shell`)
 
     $ make cli-version
     docker exec -it ghost-local ghost -v
     Ghost-CLI version: 1.7.3
     Ghost Version (at /var/lib/ghost): 1.23.0
+    Latest version on Docker Hub: 1.23.0
 
 ## [NAME=ghost-local] make shell
 
