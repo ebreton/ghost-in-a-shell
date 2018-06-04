@@ -150,15 +150,15 @@ release-vars:
 	@echo '  CHANGELOG_GITHUB_TOKEN=${CHANGELOG_GITHUB_TOKEN}'
 
 release:
-	# make sure we are in master
-	python update_release.py check --branch=master
+	# # make sure we are in master
+	# python update_release.py check --branch=master
 
-	# update versions and ask for confirmation
-	python update_release.py
-	python update_release.py confirm
+	# # update versions and ask for confirmation
+	# python update_release.py
+	# python update_release.py confirm
 
-	# create branch and tag
-	git checkout -b release-$(VERSION)
+	# # create branch and tag
+	# git checkout -b release-$(VERSION)
 	git add .
 	git commit -m "Prepared release $(VERSION)"
 	git push --set-upstream origin release-$(VERSION)
