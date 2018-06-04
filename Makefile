@@ -174,7 +174,7 @@ changelog: check-release-env
 	git push
 
 
-release:
+release: check-release-env
 	# make sure we are in master
 	python update_release.py check --branch=master
 
