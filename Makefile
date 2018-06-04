@@ -149,16 +149,32 @@ release-vars:
 	@echo '  GITHUB_TOKEN=${GITHUB_TOKEN}'
 	@echo '  CHANGELOG_GITHUB_TOKEN=${CHANGELOG_GITHUB_TOKEN}'
 
+release-pull:
+	docker pull ferrarimarco/github-changelog-generator
+
+changelog:
+	@echo updating CHANGELOG...
+	@docker run -it --rm \
+		-v $(PWD):/usr/local/src/your-app \
+		ferrarimarco/github-changelog-generator \
+		-u ${GITHUB_OWNER} -p ${GITHUB_REPO} -t ${CHANGELOG_GITHUB_TOKEN}
+
+	# commit master
+	git add CHANGELOG.md
+	git commit -m "updated CHANGELOG"
+	git push
+
+
 release:
-	# # make sure we are in master
-	# python update_release.py check --branch=master
+	# make sure we are in master
+	python update_release.py check --branch=master
 
-	# # update versions and ask for confirmation
-	# python update_release.py
-	# python update_release.py confirm
+	# update versions and ask for confirmation
+	python update_release.py
+	python update_release.py confirm
 
-	# # create branch and tag
-	# git checkout -b release-$(VERSION)
+	# create branch and tag
+	git checkout -b release-$(VERSION)
 	git add .
 	git commit -m "Prepared release $(VERSION)"
 	git push --set-upstream origin release-$(VERSION)
@@ -168,7 +184,7 @@ release:
 	git push --tags --force
 
 	# updating CHANGELOG
-	make update-changelog
+	make changelog
 
 	# create github release
 	python update_release.py publish
@@ -187,7 +203,7 @@ push-qa:
 	git push --tags --force
 
 	# updating CHANGELOG
-	make update-changelog
+	make changelog
 
 push-prod:
 	@# confirm push to production
@@ -198,13 +214,4 @@ push-prod:
 	git push --tags --force
 
 	# updating CHANGELOG
-	make update-changelog
-
-update-changelog:
-	# updating CHANGELOG
-	github_changelog_generator
-
-	# commit master
-	git add CHANGELOG.md
-	git commit -m "updated CHANGELOG"
-	git push
+	make changelog
