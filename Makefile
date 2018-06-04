@@ -74,6 +74,15 @@ vars: check-env
 	@echo '  GATLING_USERS=${GATLING_USERS}'
 	@echo '  GATLING_RAMP=${GATLING_RAMP}'
 
+check-env:
+ifeq ($(wildcard .env),)
+	@echo ".env file is missing"
+	@exit 1
+else
+include .env
+export
+endif
+
 check-prod-env:
 ifeq ($(wildcard etc/prod.env),)
 	@echo "etc/prod.env file is missing"
@@ -83,12 +92,12 @@ include etc/prod.env
 export
 endif
 
-check-env:
-ifeq ($(wildcard .env),)
-	@echo ".env file is missing"
+check-release-env:
+ifeq ($(wildcard etc/release.env),)
+	@echo "etc/release.env file is missing. Create it from etc/release.env.sample"
 	@exit 1
 else
-include .env
+include etc/release.env
 export
 endif
 
@@ -152,7 +161,7 @@ release-vars:
 release-pull:
 	docker pull ferrarimarco/github-changelog-generator
 
-changelog:
+changelog: check-release-env
 	@echo updating CHANGELOG...
 	@docker run -it --rm \
 		-v $(PWD):/usr/local/src/your-app \
