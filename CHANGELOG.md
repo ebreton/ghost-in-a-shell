@@ -1,10 +1,17 @@
 # Change Log
 
-## [0.2.1](https://github.com/ebreton/ghost-in-a-shell/tree/0.2.1) (2018-05-28)
-[Full Changelog](https://github.com/ebreton/ghost-in-a-shell/compare/qa-release...0.2.1)
+## [qa-release](https://github.com/ebreton/ghost-in-a-shell/tree/qa-release) (2018-06-04)
+[Full Changelog](https://github.com/ebreton/ghost-in-a-shell/compare/0.2.2...qa-release)
 
-## [qa-release](https://github.com/ebreton/ghost-in-a-shell/tree/qa-release) (2018-05-28)
-[Full Changelog](https://github.com/ebreton/ghost-in-a-shell/compare/0.2.0...qa-release)
+## [0.2.2](https://github.com/ebreton/ghost-in-a-shell/tree/0.2.2) (2018-06-04)
+[Full Changelog](https://github.com/ebreton/ghost-in-a-shell/compare/0.2.1...0.2.2)
+
+**Merged pull requests:**
+
+- Support multiple versions of Ghost [\#10](https://github.com/ebreton/ghost-in-a-shell/pull/10) ([ebreton](https://github.com/ebreton))
+
+## [0.2.1](https://github.com/ebreton/ghost-in-a-shell/tree/0.2.1) (2018-05-28)
+[Full Changelog](https://github.com/ebreton/ghost-in-a-shell/compare/0.2.0...0.2.1)
 
 **Merged pull requests:**
 
