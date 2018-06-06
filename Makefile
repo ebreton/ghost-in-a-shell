@@ -2,11 +2,12 @@
 # Default values, can be overridden either on the command line of make
 # or in .env
 
-.PHONY: dev qa prod vars \
+.PHONY: dev qa prod vars save-vars check-env check-release-env check-prod-env gatling \
 	cli-version ps shell logs stop pull restart restart-prod upgrade upgrade-prod \
 	app-version release push-qa push-prod update-changelog 
 
 VERSION:=$(shell python update_release.py -v)
+p?=./
 
 dev: check-env
 	# Simply start a ghost container making it directly available through $$PORT
@@ -15,6 +16,7 @@ dev: check-env
 		-p ${PORT}:2368 \
 		-e url=http://${DOMAIN}:${PORT} \
 		ghost:${GHOST_VERSION}-alpine
+	make save-vars
 
 qa: check-env
 	# Start a ghost container behind traefik (therefore available through 80 or 443), on path $$NAME
@@ -28,13 +30,14 @@ qa: check-env
 		--label "traefik.frontend.entryPoints=${PROTOCOL}" \
 		--label "traefik.frontend.rule=Host:${DOMAIN};PathPrefix:/${URI}" \
 		ghost:${GHOST_VERSION}-alpine
+	make save-vars
 
 # for backward compatibility
 traefik: qa
 	@echo ""
 	@echo "!! DEPRECATION WARNING: 'make traefik' is replaced by 'make qa'. This command will be dropped in version 0.4"
 
-prod: check-prod-env
+prod: check-env check-prod-env
 	# Same configuration as make `traefik`, specifying DB
 	docker run --rm -d --name ${NAME} \
 		-v $(shell pwd)/instances/${NAME}:/var/lib/ghost/content \
@@ -53,10 +56,12 @@ prod: check-prod-env
 		--label "traefik.backend=${NAME}" \
 		--label "traefik.frontend.entryPoints=${PROTOCOL}" \
 		--label "traefik.frontend.rule=Host:${DOMAIN};PathPrefix:/${URI}" \
-		ghost:${GHOST_VERSION}-alpine  
+		ghost:${GHOST_VERSION}-alpine
+	make save-vars				
 
 vars: check-env
 	# common
+	@echo '  p=${p}.env'
 	@echo '  NAME=${NAME}'
 	@echo '  GHOST_VERSION=${GHOST_VERSION}'
 	# values used for dev
@@ -74,13 +79,20 @@ vars: check-env
 	@echo '  GATLING_USERS=${GATLING_USERS}'
 	@echo '  GATLING_RAMP=${GATLING_RAMP}'
 
-check-env:
-ifeq ($(wildcard .env),)
-	@echo ".env file is missing"
-	@exit 1
+save-vars:
+ifeq ($(wildcard instances/${NAME}/.env),)
+	@echo "creating instances/${NAME}/.env"
+	@echo '# This file has been generated when you created the instance.\n\
+# Feel free to adapt it manually\n\
+NAME=${NAME}\n\
+GHOST_VERSION=${GHOST_VERSION}\n\
+PORT=${PORT}\n\
+PROTOCOL=${PROTOCOL}\n\
+DOMAIN=${DOMAIN}\n\
+URI=${URI}\n\
+' > ./instances/${NAME}/.env
 else
-include .env
-export
+	@echo "instances/${NAME}/.env already exists"
 endif
 
 check-prod-env:
@@ -98,6 +110,15 @@ ifeq ($(wildcard etc/release.env),)
 	@exit 1
 else
 include etc/release.env
+export
+endif
+
+check-env:
+ifeq ($(wildcard ${p}.env),)
+	@echo "${p}.env file is missing"
+	@exit 1
+else
+include ${p}.env
 export
 endif
 
