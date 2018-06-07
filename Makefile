@@ -161,9 +161,9 @@ restart: stop dev logs
 restart-qa: stop qa logs
 restart-prod: stop prod logs
 
-upgrade: pull restart
-upgrade-qa: pull restart-qa
-upgrade-prod: pull restart-prod
+upgrade: pull stop dev cli-version
+upgrade-qa: pull stop qa cli-version
+upgrade-prod: pull stop prod cli-version
 
 
 # RELEASE PROCESS related commands
