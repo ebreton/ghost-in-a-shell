@@ -196,6 +196,9 @@ changelog: check-release-env
 
 
 release: check-release-env
+	# make sure requests is available
+	python -c "import requests"
+
 	# make sure we are in master
 	python update_release.py check --branch=master
 
