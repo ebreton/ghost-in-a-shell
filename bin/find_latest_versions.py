@@ -1,14 +1,10 @@
 #!/usr/bin/python
-
 from distutils.version import LooseVersion
 
 import argparse
 import logging
 import requests
 import re
-
-from update_release import  set_logging_config
-from versions import _version
 
 session = requests.Session()
 
@@ -70,17 +66,23 @@ It can be run with both python 2.7 and 3.6""")
     parser.add_argument("repository", nargs='?', 
         help="repository name [default:library/ghost]",
         default="library/ghost")
-    parser.add_argument('-v', '--version', action='store_true')
     parser.add_argument('-d', '--debug', action='store_true')
     parser.add_argument('-q', '--quiet', action='store_true')
     args = parser.parse_args()
 
-    set_logging_config(quiet=args.quiet, debug=args.debug)
+    # set up level of logging
+    level = logging.INFO
+    if args.quiet:
+        level = logging.WARNING
+    elif args.debug:
+        level = logging.DEBUG
+
+    # set up logging to console
+    logging.basicConfig(format='%(levelname)s - %(funcName)s - %(message)s')
+    logger = logging.getLogger()
+    logger.setLevel(level)
+
     logging.debug(args)
 
     # version needs to be print to output in order to be retrieved by Makefile
-    if args.version:
-        print(_version)
-        raise SystemExit()
-
     print(find_latest(args.repository))
