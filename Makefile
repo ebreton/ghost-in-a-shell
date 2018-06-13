@@ -137,9 +137,15 @@ gatling:
 # DOCKER related commands
 ###
 
+build:
+	cd bin && docker build -t python-requests .
+
 cli-version:
 	docker exec -it ${NAME} ghost -v
-	@echo Latest version on Docker Hub: $(shell python find_latest_versions.py)
+	@echo Latest version on Docker Hub: $(shell \
+		docker run --rm -it \
+			-v $(PWD)/bin/find_latest_versions.py:/usr/src/app/find_latest_versions.py \
+			python-requests find_latest_versions.py)
 
 ps:
 	# A lightly formatted version of docker ps
@@ -154,7 +160,7 @@ logs:
 stop:
 	docker stop ${NAME}
 
-pull:
+pull: build
 	docker pull ghost:${GHOST_VERSION}-alpine
 
 restart: stop dev logs
