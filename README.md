@@ -28,16 +28,13 @@ ToC
 
 <!-- TOC -->
 
-- [ToC](#toc)
 - [Overview](#overview)
 - [Installation and usage](#installation-and-usage)
 - [Helpers for developers](#helpers-for-developers)
-- [:construction: Production readyness](#construction--production-readyness)
-- [Interested ?](#interested)
-  - [Look for what's coming next...](#look-for-whats-coming-next)
-  - [Something is missing ?](#something-is-missing)
+- [Production](#production)
+- [Something is missing ?](#something-is-missing-)
 - [Changelog](#changelog)
-- [:warning: Backward incompatible changes](#warning--backward-incompatible-changes)
+- [:warning: Backward incompatible changes](#warning-backward-incompatible-changes)
 - [Contribution](#contribution)
 
 <!-- /TOC -->
@@ -72,7 +69,8 @@ You will find details and a step-by-step guide for both scenario in [INSTALL.md]
 If you'd rather have a **Tutorial** than a raw INSTALL.md file, feel free to check my "_Ghost in A shell_" series:
 1. [Part I : localhost](https://dev.to/ebreton/ghost-in-a-shell---part-i--localhost-5he9)
 1. [Part II : HTTPs is the norm](https://dev.to/ebreton/ghost-in-a-shell---part-ii---https-is-the-norm-1jj4)
-1. :construction: Part III - To production, and beyond ! 
+1. [Part III - To Production, with performance](https://dev.to/ebreton/ghost-in-a-shell---part-iii--to-production-with-performance-10g5)
+2. [Part IV - Maintenance](https://dev.to/ebreton/ghost-in-a-shell---part-iv-and-final-maintenance-2a5p)
 
 ## Helpers for developers
 
@@ -96,7 +94,7 @@ Command | Description | Variables
 
 More detailed can be found in [HELPERS.md](./docs/HELPERS.md)
 
-## :construction: Production readyness
+## Production
 
 Environment variables are defined in ./etc/prod.env, e.g:
 - MYSQL_ROOT_PASSWORD
@@ -110,17 +108,7 @@ Command | Description
  `make upgrade-prod` | Calls `make pull restart-prod`
 
 
-## Interested ? 
-
-### Look for what's coming next...
-
-1. Allow argument $NAME on make command wich will load full .env from ./instances/$NAME
-1. Write make migrate
-1. Write make try-upgrade
-1. Write make list to get all created instances
-1. Configure NGinx for cache
-
-### Something is missing ?
+## Something is missing ?
 
 Head to [github issues](https://github.com/ebreton/ghost-in-a-shell/issues) and submit one! Be sure to have a look at the [CONTRIBUTING.md](./docs/CONTRIBUTING.md) guide before
 
