@@ -1,7 +1,14 @@
 # Change Log
 
-## [qa-release](https://github.com/ebreton/ghost-in-a-shell/tree/qa-release) (2018-06-04)
-[Full Changelog](https://github.com/ebreton/ghost-in-a-shell/compare/0.2.2...qa-release)
+## [qa-release](https://github.com/ebreton/ghost-in-a-shell/tree/qa-release) (2018-06-13)
+[Full Changelog](https://github.com/ebreton/ghost-in-a-shell/compare/0.3.0...qa-release)
+
+## [0.3.0](https://github.com/ebreton/ghost-in-a-shell/tree/0.3.0) (2018-06-13)
+[Full Changelog](https://github.com/ebreton/ghost-in-a-shell/compare/0.2.2...0.3.0)
+
+**Merged pull requests:**
+
+- All in one configurations [\#11](https://github.com/ebreton/ghost-in-a-shell/pull/11) ([ebreton](https://github.com/ebreton))
 
 ## [0.2.2](https://github.com/ebreton/ghost-in-a-shell/tree/0.2.2) (2018-06-04)
 [Full Changelog](https://github.com/ebreton/ghost-in-a-shell/compare/0.2.1...0.2.2)
