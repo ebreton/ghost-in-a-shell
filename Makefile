@@ -21,14 +21,20 @@ dev: check-env
 qa: check-env
 	# Start a ghost container behind traefik (therefore available through 80 or 443), on path $$NAME
 	# Beware of --network used, which is the same one traefik should be using
-	docker run --rm -d --name ${NAME} \
+	docker run --restart=always -d --name ${NAME} \
 		-v $(shell pwd)/instances/${NAME}:/var/lib/ghost/content \
 		-e url=${PROTOCOL}://${DOMAIN}/${URI} \
-		--network=proxy \
-		--label "traefik.enable=true" \
-		--label "traefik.backend=${NAME}" \
-		--label "traefik.frontend.entryPoints=${PROTOCOL}" \
-		--label "traefik.frontend.rule=Host:${DOMAIN};PathPrefix:/${URI}" \
+		--network=traefik-public \
+		--label 'traefik.enable=true' \
+		--label 'traefik.docker.network=traefik-public' \
+		--label 'traefik.http.middlewares.stripprefix-${NAME}.stripprefix.prefixes=/${NAME}' \
+		--label 'traefik.http.routers.plain-${NAME}.entrypoints=web' \
+		--label 'traefik.http.routers.plain-${NAME}.rule=Host(`${DOMAIN}`)' \
+		--label 'traefik.http.routers.plain-${NAME}.middlewares=redirect-to-https' \
+		--label 'traefik.http.routers.${NAME}.entrypoints=websecure' \
+		--label 'traefik.http.routers.${NAME}.rule=Host(`${DOMAIN}`)' \
+		--label 'traefik.http.routers.${NAME}.tls.certresolver=dnsresolver' \
+		--label 'traefik.http.routers.${NAME}.middlewares=stripprefix-${NAME}' \
 		ghost:${GHOST_VERSION}-alpine
 	make save-vars
 
@@ -39,7 +45,7 @@ traefik: qa
 
 prod: check-env check-prod-env
 	# Same configuration as make `traefik`, specifying DB
-	docker run --rm -d --name ${NAME} \
+	docker run --restart=always -d --name ${NAME} \
 		-v $(shell pwd)/instances/${NAME}:/var/lib/ghost/content \
 		-e database__client=mysql \
 		-e database__connection__host=db-shared \
@@ -51,11 +57,15 @@ prod: check-env check-prod-env
 		-e mail__options__auth__user=${MAILGUN_LOGIN} \
 		-e mail__options__auth__pass=${MAILGUN_PASSWORD} \
 		-e url=${PROTOCOL}://${DOMAIN}/${URI} \
-		--network=proxy \
+		--network=traefik-public \
 		--label "traefik.enable=true" \
-		--label "traefik.backend=${NAME}" \
-		--label "traefik.frontend.entryPoints=${PROTOCOL}" \
-		--label "traefik.frontend.rule=Host:${DOMAIN};PathPrefix:/${URI}" \
+		--label "traefik.docker.network=traefik-public" \
+		--label "traefik.http.routers.plain-${NAME}.entrypoints=web" \
+		--label "traefik.http.routers.plain-${NAME}.rule=Host(`${DOMAIN}`) && Path(`/${URI}`)" \
+		--label "traefik.http.routers.plain-${NAME}.middlewares=redirect-to-https" \
+		--label "traefik.http.routers.${NAME}.entrypoints=websecure" \
+		--label "traefik.http.routers.${NAME}.rule=Host(`${DOMAIN}`) && Path(`/${URI}`)" \
+		--label "traefik.http.routers.${NAME}.tls.certresolver=dnsresolver" \
 		ghost:${GHOST_VERSION}-alpine
 	make save-vars				
 
@@ -82,15 +92,14 @@ vars: check-env
 save-vars:
 ifeq ($(wildcard instances/${NAME}/.env),)
 	@echo "creating instances/${NAME}/.env"
-	@echo '# This file has been generated when you created the instance.\n\
-# Feel free to adapt it manually\n\
-NAME=${NAME}\n\
-GHOST_VERSION=${GHOST_VERSION}\n\
-PORT=${PORT}\n\
-PROTOCOL=${PROTOCOL}\n\
-DOMAIN=${DOMAIN}\n\
-URI=${URI}\n\
-' > ./instances/${NAME}/.env
+	@echo '# This file has been generated when you created the instance.' > ./instances/${NAME}/.env
+	@echo '# Feel free to adapt it manually' >> ./instances/${NAME}/.env
+	@echo 'NAME=${NAME}' >> ./instances/${NAME}/.env
+	@echo 'GHOST_VERSION=${GHOST_VERSION}' >> ./instances/${NAME}/.env
+	@echo 'PORT=${PORT}' >> ./instances/${NAME}/.env
+	@echo 'PROTOCOL=${PROTOCOL}' >> ./instances/${NAME}/.env
+	@echo 'DOMAIN=${DOMAIN}' >> ./instances/${NAME}/.env
+	@echo 'URI=${URI}' >> ./instances/${NAME}/.env
 else
 	@echo "instances/${NAME}/.env already exists"
 endif
@@ -131,7 +140,7 @@ gatling:
 		-v $(shell pwd)/etc/gatling-conf.scala:/opt/gatling/user-files/simulations/ghost/GhostFrontend.scala \
 		-v $(shell pwd)/gatling-results:/opt/gatling/results \
 		-e JAVA_OPTS="-Dusers=${GATLING_USERS} -Dramp=${GATLING_RAMP} -DbaseUrl=${GATLING_BASE_URL}" \
-		--network=proxy \
+		--network=traefik-public \
 		denvazh/gatling -m -s ghost.GhostFrontend
 
 # DOCKER related commands
@@ -157,19 +166,22 @@ shell:
 logs:
 	docker logs -f ${NAME}
 
+rm:
+	docker rm ${NAME}
+
 stop:
 	docker stop ${NAME}
 
 pull: build
 	docker pull ghost:${GHOST_VERSION}-alpine
 
-restart: stop dev logs
-restart-qa: stop qa logs
-restart-prod: stop prod logs
+restart: stop rm dev logs
+restart-qa: stop rm qa logs
+restart-prod: stop rm prod logs
 
-upgrade: pull stop dev cli-version
-upgrade-qa: pull stop qa cli-version
-upgrade-prod: pull stop prod cli-version
+upgrade: pull stop rm dev cli-version
+upgrade-qa: pull stop rm qa cli-version
+upgrade-prod: pull stop rm prod cli-version
 
 
 # RELEASE PROCESS related commands
